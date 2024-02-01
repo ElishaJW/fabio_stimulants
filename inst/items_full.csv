@@ -43,9 +43,9 @@ c041,2618,Pineapples and products,tonnes,Primary crops,0,crops,"Vegetables, frui
 c042,2619,Dates,tonnes,Primary crops,0.22,crops,"Vegetables, fruit, nuts, pulses, spices"
 c043,2620,Grapes and products (excl wine),tonnes,Primary crops,0.81,crops,"Vegetables, fruit, nuts, pulses, spices"
 c044,2625,"Fruits, Other",tonnes,Primary crops,0.85,crops,"Vegetables, fruit, nuts, pulses, spices"
-c045,2630,Coffee and products,tonnes,Primary crops,0,crops,"Coffee, tea, cocoa"
-c046,2633,Cocoa Beans and products,tonnes,Primary crops,0.1,crops,"Coffee, tea, cocoa"
-c047,2635,Tea (including mate),tonnes,Primary crops,0.1,crops,"Coffee, tea, cocoa"
+c045,1610,"Coffee, green",tonnes,Primary crops,0,crops,"Coffee, tea, cocoa"
+c046,1640,Cocoa beans,tonnes,Primary crops,0.1,crops,"Coffee, tea, cocoa"
+c047,1620,Tea leaves,tonnes,Primary crops,0.1,crops,"Coffee, tea, cocoa"
 c048,677,Hops,tonnes,Primary crops,0,crops,"Vegetables, fruit, nuts, pulses, spices"
 c049,2640,Pepper,tonnes,Primary crops,0,crops,"Vegetables, fruit, nuts, pulses, spices"
 c050,2641,Pimento,tonnes,Primary crops,0,crops,"Vegetables, fruit, nuts, pulses, spices"
@@ -57,7 +57,7 @@ c055,2664,"Soft-Fibres, Other",tonnes,Primary crops,0,crops,Fibre crops
 c056,2665,Sisal,tonnes,Primary crops,0,crops,Fibre crops
 c057,2666,Abaca,tonnes,Primary crops,0,crops,Fibre crops
 c058,2667,"Hard Fibres, Other",tonnes,Primary crops,0,crops,Fibre crops
-c059,2671,Tobacco,tonnes,Primary crops,0,crops,"Tobacco, rubber"
+c059,1970,Unmanufactured tobacco,tonnes,Primary crops,0,crops,"Tobacco, rubber"
 c060,2672,Rubber,tonnes,Primary crops,0,crops,"Tobacco, rubber"
 c061,2000,Fodder crops,tonnes,Primary crops,0.85,fodder,Fodder crops
 c062,2001,Grazing,tonnes,Primary crops,0.8,grass,Grazing
@@ -122,3 +122,15 @@ c120,2748,Hides and skins,tonnes,Livestock products,0,animals,"Hides, skins, woo
 c121,2745,Honey,tonnes,Livestock products,0.17,animals,Honey
 c122,2747,Silk,tonnes,Livestock products,0,animals,"Hides, skins, wool"
 c123,2960,"Fish, Seafood",tonnes,Fish,0.7,animals,Fish
+c126,23620,"Cocoa butter, fat and oil",tonnes,Crop products,,residues,"Coffee, tea, cocoa"
+c127,39150.02,Cocoa husks and shells,tonnes,Crop products,,residues,"Coffee, tea, cocoa"
+c128,23610.01,Cocoa paste not defatted,tonnes,Crop products,,residues,"Coffee, tea, cocoa"
+c129,F0665,Cocoa powder and cake,tonnes,Crop products,,residues,"Coffee, tea, cocoa"
+c130,F0666,Chocolate products nes,tonnes,Crop products,,residues,"Coffee, tea, cocoa"
+c131,23911,"Coffee, decaffeinated or roasted",tonnes,Crop products,,residues,"Coffee, tea, cocoa"
+c132,23912.02,Coffee extracts,tonnes,Crop products,,residues,"Coffee, tea, cocoa"
+c133,23914,"Extracts, essences and concentrates of tea or mate, and preparations with a basis thereof or with a basis of tea or mate",tonnes,Crop products,,residues,"Coffee, tea, cocoa"
+c134,1630,Mate leaves,tonnes,Crop products,,residues,"Coffee, tea, cocoa"
+c135,25020.02,Cigars and cheroots,tonnes,Crop products,,residues,"Tobacco, rubber"
+c136,25090,"Other manufactured tobacco and manufactured tobacco substitutes; homogenized"" or ""reconstituted"" tobacco; tobacco extracts and essences""",tonnes,Crop products,,residues,"Tobacco, rubber"
+c137,25020.01,Cigarettes,tonnes,Crop products,,residues,"Tobacco, rubber"

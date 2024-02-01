@@ -43,9 +43,9 @@ p041,Pineapples production,c041,2618,Pineapples and products
 p042,Dates production,c042,2619,Dates
 p043,Grapes production,c043,2620,Grapes and products (excl wine)
 p044,"Fruits production, Other",c044,2625,"Fruits, Other"
-p045,Coffee production,c045,2630,Coffee and products
-p046,Cocoa Beans production,c046,2633,Cocoa Beans and products
-p047,Tea production,c047,2635,Tea (including mate)
+p045,Coffee production,c045,1610,"Coffee, green"
+p046,Cocoa Beans production,c046,1640,Cocoa beans
+p047,Tea production,c047,1620,Tea leaves
 p048,Hops production,c048,677,Hops
 p049,Pepper production,c049,2640,Pepper
 p050,Pimento production,c050,2641,Pimento
@@ -64,7 +64,7 @@ p062,Grazing production,c062,2001,Grazing
 p063,Cotton production,c063,2559,Cottonseed
 p063,Cotton production,c096,2661,Cotton lint
 p064,"Sugar production, non-centrifugal",c065,2541,Sugar non-centrifugal
-p065,Sugar production,c067,2542,"Sugar (Raw Equivalent)"
+p065,Sugar production,c067,2542,Sugar (Raw Equivalent)
 p066,"Sweeteners production, Other",c068,2543,"Sweeteners, Other"
 p067,Soyabean Oil extraction,c069,2571,Soyabean Oil
 p068,Groundnut Oil extraction,c070,2572,Groundnut Oil
@@ -167,3 +167,13 @@ p107,Goat slaughtering,c121,2748,Hides and skins
 p118,Beekeeping,c123,2745,Honey
 p119,Silkworm breeding,c124,2747,Silk
 p120,Fishing,c125,2960,"Fish, Seafood"
+p121,Cocoa butter and powder production,c126,23620,"Cocoa butter, fat and oil"
+p122,Cocoa paste production,c127,39150.02,Cocoa husks and shells
+p122,Cocoa paste production,c128,23610.01,Cocoa paste not defatted
+p121,Cocoa butter and powder production,c129,F0665,Cocoa powder and cake
+p123,Chocolate production,c130,F0666,Chocolate products nes
+p124,"Coffee production, decaffeinated or roasted",c131,23911,"Coffee, decaffeinated or roasted"
+p125,Coffee extract production,c132,23912.02,Coffee extracts
+p126,Tea or mate extract production,c133,23914,"Extracts, essences and concentrates of tea or mate, and preparations with a basis thereof or with a basis of tea or mate"
+p127,Mate production,c134,1630,Mate leaves
+p128,Coffee substitute production,c135,23912.01,Coffee substitutes
