@@ -3,6 +3,9 @@
 # V1.0
 # Eli Wilson - elisha.wilson@ntnu.no
 
+# >>>>NOT NECESSARY FOR RUNNING STIMULANT UPDATE<<<<<<
+
+
 # Still very much not functional. Converted directly from python code via 
 #  chatGPT and still requires debugging. No trade data yet. No tobacco products 
 #  yet. Modify as needed.
