@@ -136,8 +136,8 @@ fao_code,fao_item,item_code,item,water_item,water_colname,description
 600,Papayas,2625,"Fruits, Other",Papayas,Papayas,Carica papaya.
 603,"Fruit, tropical fresh nes",2625,"Fruits, Other",Fruit tropical fresh nes,Fruit.tropical.fresh.nes,"Including inter alia: breadfruit (Artocarpus incisa); carambola (Averrhoa carambola); cherimoya, custard apple (Annona spp.); durian (Durio zibethinus); feijoa (Feijoa sellowiana); guava (Psidium guajava); hog plum, mombin (Spondias spp.); jackfruit (Arto"
 619,"Fruit, fresh nes",2625,"Fruits, Other",Fruit fresh nes,Fruit.fresh.nes,Including inter alia: azarole (Crataegus azarolus); babaco (Carica pentagona); elderberry (Sambucus nigra); jujube (Zizyphus jujuba); litchi (nephelium litchi); loquat (Eriobotrya japonica); medlar (Mespilus germanica); pawpaw (Asimina triloba); pomegrana
-656,"Coffee, green",2630,Coffee and products,Coffee,Coffee,"Coffea spp. (arabica, robusta, liberica). Raw coffee in all forms."
-661,"Cocoa, beans",2633,Cocoa Beans and products,Cocoa,Cocoa,"Theobroma cacao. The seeds contained in the fruit of the cacao- tree, including whole or broken, raw or roasted."
+656,"Coffee, green",1610,"Coffee, green",Coffee,Coffee,"Coffea spp. (arabica, robusta, liberica). Raw coffee in all forms."
+661,"Cocoa, beans",1640,Cocoa beans,Cocoa,Cocoa,"Theobroma cacao. The seeds contained in the fruit of the cacao- tree, including whole or broken, raw or roasted."
 667,Tea,2635,Tea (including mate),Tea,Tea,"Camellia sinensis; Thea sinensis; Thea assaamica. Includes green tea (unfermented), black tea (fermented), and partially fermented tea. Excludes green tea eaten as a vegetable."
 671,Mat?,2635,Tea (including mate),Tea,Tea,Ilex paraguayensis. The dried leaves of certain shrubs of the holly family which grow in South America. Prepared in a way similar to tea.
 677,Hops,677,Hops,Hops,Hops,"Humulus lupulus. Hop cones, fresh or dried, whether or not ground, powdered or in the form of pellets. Includes lupuline, a yellow resinous powder that covers the hop cones. Mainly used in the brewing industry to give flavour to beer."
