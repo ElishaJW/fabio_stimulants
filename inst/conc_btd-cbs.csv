@@ -255,19 +255,20 @@ btd_item_code,cbs_item_code,cbs_item
 652,,"Feed, vegetable products nes"
 653,,Food wastes
 654,,"Dregs from brewing, distillation"
-656,2630,Coffee and products
-657,2630,Coffee and products
-658,2630,Coffee and products
-659,2630,Coffee and products
-660,2630,Coffee and products
-661,2633,Cocoa Beans and products
-662,2633,Cocoa Beans and products
-664,2586,"Oilcrops Oil, Other"
-665,2633,Cocoa Beans and products
-666,2633,Cocoa Beans and products
-667,2635,Tea (including mate)
-671,2635,Tea (including mate)
-672,2635,Tea (including mate)
+656,1610,"Coffee, green"
+657,23911,"Coffee, decaffeinated or roasted"
+658,2391201,Coffee substitutes
+659,2391202,Coffee extracts
+660,1610,"Coffee, green"
+661,1640,Cocoa beans
+662,2361001,Cocoa paste not defatted
+663,3915002,Cocoa husks and shells
+664,23620,"Cocoa butter, fat and oil"
+665,665,Cocoa powder and cake
+666,666,Chocolate products nes
+667,1620,Tea leaves
+671,1630,Mate leaves
+672,23914,"Extracts, essences and concentrates of tea or mate, and preparations with a basis thereof or with a basis of tea or mate"
 677,677,Hops
 687,2640,Pepper
 689,2641,Pimento
