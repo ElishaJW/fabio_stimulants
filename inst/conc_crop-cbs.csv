@@ -136,10 +136,10 @@ crop_item_code,crop_item,cbs_item_code,cbs_item,tcf
 600,Papayas,2625,"Fruits, Other",1
 603,"Fruit, tropical fresh nes",2625,"Fruits, Other",1
 619,"Fruit, fresh nes",2625,"Fruits, Other",1
-656,"Coffee, green",2630,Coffee and products,1
-661,"Cocoa, beans",2633,Cocoa Beans and products,1
-667,Tea,2635,Tea (including mate),1
-671,Mate,2635,Tea (including mate),1
+656,"Coffee, green",1610,"Coffee, green",1
+661,"Cocoa, beans",1640,Cocoa beans,1
+667,Tea,1620,Tea leaves,1
+671,Mate,1630,Mate leaves,1
 677,Hops,677,Hops,1
 687,Pepper (piper spp.),2640,Pepper,1
 689,"Chillies and peppers, dry",2641,Pimento,1
