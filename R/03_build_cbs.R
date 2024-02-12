@@ -2,6 +2,7 @@
 library("data.table")
 library("Matrix")
 source("R/01_tidy_functions.R")
+source("R/stimulant_SUA_mods.R")
 
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
@@ -16,7 +17,19 @@ cat("Removing items from CBS that are not used in FABIO:\n\t",
   paste0(unique(cbs[!item_code %in% items$item_code, item]),
     sep = "", collapse = "; "), ".\n", sep = "") # Eggs and Milk are duplicated with different codes (2948, 2949)
 # Particularly fish and aggregates
+# This filters out stimulant commodities, as item codes don't match
 cbs <- dt_filter(cbs, item_code %in% items$item_code)
+
+
+# Adding Stimulant Data from SUA -------------------------------------------
+
+cat("\nAdding stimulant data from SUAs.\n")
+
+# Reread stimulant data
+stim_sua <- readRDS("data/stim_sua.rds")
+
+# Bind the two cbs/sua dataframes together
+cbs <- rbind(cbs, stim_sua)
 
 
 # Prepare BTD data --------------------------------------------------------
@@ -80,7 +93,7 @@ sua <- sua[year > 2013, ]
 
 # remove palm kernels in cbs after 2013 and bind sua data to cbs
 cbs <- cbs[!(item == "Palm kernels" & year > 2013),]
-cbs <- rbind(cbs, sua, use.names = TRUE)
+cbs <- rbind(cbs, sua, use.names = TRUE, fill=TRUE)
 
 
 # Fill crop production where missing -------------------------------------
@@ -800,3 +813,4 @@ cat("\nRest (mostly 'food', 'feed' and 'processing') remains in 'unspecified', '
 
 saveRDS(cbs, "data/cbs_full.rds")
 saveRDS(btd, "data/btd_full.rds")
+
