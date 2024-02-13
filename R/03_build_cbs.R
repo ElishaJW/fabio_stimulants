@@ -106,6 +106,10 @@ crop_prod <- crop[element == "Production" & unit == "tonnes", ]
 crop_prod[, `:=`(element = NULL, unit = NULL)]
 setkey(crop_prod, year, area_code, item_code)
 
+# Make cbs item/area codes numeric in order to complete merge below
+cbs$area_code <- as.numeric(cbs$area_code)
+cbs$item_code <- as.numeric(cbs$item_code)
+
 # Add production to CBS where is.na or is zero ---
 cbs <- merge(cbs, crop_prod,
              by = c("area_code", "area", "item_code", "item", "year"), all.x = TRUE)
