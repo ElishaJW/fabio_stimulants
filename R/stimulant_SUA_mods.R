@@ -70,7 +70,7 @@ sua_full$area_code<-gsub("'", "", sua_full$area_code)
 sua_full$item_code<-gsub("'", "", sua_full$item_code)
 sua_full$item_code<-gsub("^0+", "", sua_full$item_code)
 sua_full$item_code<-gsub("F", "", sua_full$item_code)
-sua_full$item_code<-gsub(".", "", sua_full$item_code)
+sua_full$item_code<-gsub("\\.", "", sua_full$item_code)
 
 # Set SUA data to the SUA_full dataset (can be tested with cocoa cotedivoire data) 
 # sua <- sua_full
