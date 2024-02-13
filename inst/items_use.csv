@@ -304,7 +304,7 @@ p085,Cattle husbandry,c039,2616,Plantains,feed
 p085,Cattle husbandry,c040,2617,Apples and products,feed
 p085,Cattle husbandry,c042,2619,Dates,feed
 p085,Cattle husbandry,c044,2625,"Fruits, Other",feed
-p085,Cattle husbandry,c046,39150.02,Cocoa husks and shells,feed
+p085,Cattle husbandry,c046,3915002,Cocoa husks and shells,feed
 p085,Cattle husbandry,c051,2642,Cloves,feed
 p085,Cattle husbandry,c114,2731,Bovine Meat,feed
 p085,Cattle husbandry,c115,2732,Mutton & Goat Meat,feed
@@ -371,7 +371,7 @@ p086,Buffaloes husbandry,c039,2616,Plantains,feed
 p086,Buffaloes husbandry,c040,2617,Apples and products,feed
 p086,Buffaloes husbandry,c042,2619,Dates,feed
 p086,Buffaloes husbandry,c044,2625,"Fruits, Other",feed
-p086,Buffaloes husbandry,c046,39150.02,Cocoa husks and shells,feed
+p086,Buffaloes husbandry,c046,3915002,Cocoa husks and shells,feed
 p086,Buffaloes husbandry,c051,2642,Cloves,feed
 p086,Buffaloes husbandry,c114,2731,Bovine Meat,feed
 p086,Buffaloes husbandry,c115,2732,Mutton & Goat Meat,feed
@@ -438,7 +438,7 @@ p091,Horses husbandry,c039,2616,Plantains,feed
 p091,Horses husbandry,c040,2617,Apples and products,feed
 p091,Horses husbandry,c042,2619,Dates,feed
 p091,Horses husbandry,c044,2625,"Fruits, Other",feed
-p091,Horses husbandry,c046,39150.02,Cocoa husks and shells,feed
+p091,Horses husbandry,c046,3915002,Cocoa husks and shells,feed
 p091,Horses husbandry,c051,2642,Cloves,feed
 p091,Horses husbandry,c114,2731,Bovine Meat,feed
 p091,Horses husbandry,c115,2732,Mutton & Goat Meat,feed
@@ -505,7 +505,7 @@ p092,Asses husbandry,c039,2616,Plantains,feed
 p092,Asses husbandry,c040,2617,Apples and products,feed
 p092,Asses husbandry,c042,2619,Dates,feed
 p092,Asses husbandry,c044,2625,"Fruits, Other",feed
-p092,Asses husbandry,c046,39150.02,Cocoa husks and shells,feed
+p092,Asses husbandry,c046,3915002,Cocoa husks and shells,feed
 p092,Asses husbandry,c051,2642,Cloves,feed
 p092,Asses husbandry,c114,2731,Bovine Meat,feed
 p092,Asses husbandry,c115,2732,Mutton & Goat Meat,feed
@@ -572,7 +572,7 @@ p093,Mules husbandry,c039,2616,Plantains,feed
 p093,Mules husbandry,c040,2617,Apples and products,feed
 p093,Mules husbandry,c042,2619,Dates,feed
 p093,Mules husbandry,c044,2625,"Fruits, Other",feed
-p093,Mules husbandry,c046,39150.02,Cocoa husks and shells,feed
+p093,Mules husbandry,c046,3915002,Cocoa husks and shells,feed
 p093,Mules husbandry,c051,2642,Cloves,feed
 p093,Mules husbandry,c114,2731,Bovine Meat,feed
 p093,Mules husbandry,c115,2732,Mutton & Goat Meat,feed
@@ -639,7 +639,7 @@ p094,Camels husbandry,c039,2616,Plantains,feed
 p094,Camels husbandry,c040,2617,Apples and products,feed
 p094,Camels husbandry,c042,2619,Dates,feed
 p094,Camels husbandry,c044,2625,"Fruits, Other",feed
-p094,Camels husbandry,c046,39150.02,Cocoa husks and shells,feed
+p094,Camels husbandry,c046,3915002,Cocoa husks and shells,feed
 p094,Camels husbandry,c051,2642,Cloves,feed
 p094,Camels husbandry,c114,2731,Bovine Meat,feed
 p094,Camels husbandry,c115,2732,Mutton & Goat Meat,feed
@@ -706,7 +706,7 @@ p095,"Camelids husbandry, other",c039,2616,Plantains,feed
 p095,"Camelids husbandry, other",c040,2617,Apples and products,feed
 p095,"Camelids husbandry, other",c042,2619,Dates,feed
 p095,"Camelids husbandry, other",c044,2625,"Fruits, Other",feed
-p095,"Camelids husbandry, other",c046,39150.02,Cocoa husks and shells,feed
+p095,"Camelids husbandry, other",c046,3915002,Cocoa husks and shells,feed
 p095,"Camelids husbandry, other",c051,2642,Cloves,feed
 p095,"Camelids husbandry, other",c114,2731,Bovine Meat,feed
 p095,"Camelids husbandry, other",c115,2732,Mutton & Goat Meat,feed
@@ -773,7 +773,7 @@ p087,Sheep husbandry,c039,2616,Plantains,feed
 p087,Sheep husbandry,c040,2617,Apples and products,feed
 p087,Sheep husbandry,c042,2619,Dates,feed
 p087,Sheep husbandry,c044,2625,"Fruits, Other",feed
-p087,Sheep husbandry,c046,39150.02,Cocoa husks and shells,feed
+p087,Sheep husbandry,c046,3915002,Cocoa husks and shells,feed
 p087,Sheep husbandry,c051,2642,Cloves,feed
 p087,Sheep husbandry,c114,2731,Bovine Meat,feed
 p087,Sheep husbandry,c115,2732,Mutton & Goat Meat,feed
@@ -840,7 +840,7 @@ p088,Goats husbandry,c039,2616,Plantains,feed
 p088,Goats husbandry,c040,2617,Apples and products,feed
 p088,Goats husbandry,c042,2619,Dates,feed
 p088,Goats husbandry,c044,2625,"Fruits, Other",feed
-p088,Goats husbandry,c046,39150.02,Cocoa husks and shells,feed
+p088,Goats husbandry,c046,3915002,Cocoa husks and shells,feed
 p088,Goats husbandry,c051,2642,Cloves,feed
 p088,Goats husbandry,c114,2731,Bovine Meat,feed
 p088,Goats husbandry,c115,2732,Mutton & Goat Meat,feed
@@ -906,7 +906,7 @@ p089,Pigs farming,c039,2616,Plantains,feed
 p089,Pigs farming,c040,2617,Apples and products,feed
 p089,Pigs farming,c042,2619,Dates,feed
 p089,Pigs farming,c044,2625,"Fruits, Other",feed
-p089,Pigs farming,c046,39150.02,Cocoa husks and shells,feed
+p089,Pigs farming,c046,3915002,Cocoa husks and shells,feed
 p089,Pigs farming,c051,2642,Cloves,feed
 p089,Pigs farming,c114,2731,Bovine Meat,feed
 p089,Pigs farming,c115,2732,Mutton & Goat Meat,feed
@@ -971,7 +971,7 @@ p090,Poultry Birds farming,c039,2616,Plantains,feed
 p090,Poultry Birds farming,c040,2617,Apples and products,feed
 p090,Poultry Birds farming,c042,2619,Dates,feed
 p090,Poultry Birds farming,c044,2625,"Fruits, Other",feed
-p090,Poultry Birds farming,c046,39150.02,Cocoa husks and shells,feed
+p090,Poultry Birds farming,c046,3915002,Cocoa husks and shells,feed
 p090,Poultry Birds farming,c051,2642,Cloves,feed
 p090,Poultry Birds farming,c114,2731,Bovine Meat,feed
 p090,Poultry Birds farming,c115,2732,Mutton & Goat Meat,feed
@@ -1036,7 +1036,7 @@ p096,Rabbits husbandry,c039,2616,Plantains,feed
 p096,Rabbits husbandry,c040,2617,Apples and products,feed
 p096,Rabbits husbandry,c042,2619,Dates,feed
 p096,Rabbits husbandry,c044,2625,"Fruits, Other",feed
-p096,Rabbits husbandry,c046,39150.02,Cocoa husks and shells,feed
+p096,Rabbits husbandry,c046,3915002,Cocoa husks and shells,feed
 p096,Rabbits husbandry,c051,2642,Cloves,feed
 p096,Rabbits husbandry,c114,2731,Bovine Meat,feed
 p096,Rabbits husbandry,c115,2732,Mutton & Goat Meat,feed
@@ -1101,7 +1101,7 @@ p097,"Rodents husbandry, other",c039,2616,Plantains,feed
 p097,"Rodents husbandry, other",c040,2617,Apples and products,feed
 p097,"Rodents husbandry, other",c042,2619,Dates,feed
 p097,"Rodents husbandry, other",c044,2625,"Fruits, Other",feed
-p097,"Rodents husbandry, other",c046,39150.02,Cocoa husks and shells,feed
+p097,"Rodents husbandry, other",c046,3915002,Cocoa husks and shells,feed
 p097,"Rodents husbandry, other",c051,2642,Cloves,feed
 p097,"Rodents husbandry, other",c114,2731,Bovine Meat,feed
 p097,"Rodents husbandry, other",c115,2732,Mutton & Goat Meat,feed
@@ -1168,7 +1168,7 @@ p099,Dairy cattle husbandry,c039,2616,Plantains,feed
 p099,Dairy cattle husbandry,c040,2617,Apples and products,feed
 p099,Dairy cattle husbandry,c042,2619,Dates,feed
 p099,Dairy cattle husbandry,c044,2625,"Fruits, Other",feed
-p099,Dairy cattle husbandry,c046,39150.02,Cocoa husks and shells,feed
+p099,Dairy cattle husbandry,c046,3915002,Cocoa husks and shells,feed
 p099,Dairy cattle husbandry,c051,2642,Cloves,feed
 p099,Dairy cattle husbandry,c114,2731,Bovine Meat,feed
 p099,Dairy cattle husbandry,c115,2732,Mutton & Goat Meat,feed
@@ -1235,7 +1235,7 @@ p100,Dairy buffaloes husbandry,c039,2616,Plantains,feed
 p100,Dairy buffaloes husbandry,c040,2617,Apples and products,feed
 p100,Dairy buffaloes husbandry,c042,2619,Dates,feed
 p100,Dairy buffaloes husbandry,c044,2625,"Fruits, Other",feed
-p100,Dairy buffaloes husbandry,c046,39150.02,Cocoa husks and shells,feed
+p100,Dairy buffaloes husbandry,c046,3915002,Cocoa husks and shells,feed
 p100,Dairy buffaloes husbandry,c051,2642,Cloves,feed
 p100,Dairy buffaloes husbandry,c114,2731,Bovine Meat,feed
 p100,Dairy buffaloes husbandry,c115,2732,Mutton & Goat Meat,feed
@@ -1302,7 +1302,7 @@ p101,Dairy sheep husbandry,c039,2616,Plantains,feed
 p101,Dairy sheep husbandry,c040,2617,Apples and products,feed
 p101,Dairy sheep husbandry,c042,2619,Dates,feed
 p101,Dairy sheep husbandry,c044,2625,"Fruits, Other",feed
-p101,Dairy sheep husbandry,c046,39150.02,Cocoa husks and shells,feed
+p101,Dairy sheep husbandry,c046,3915002,Cocoa husks and shells,feed
 p101,Dairy sheep husbandry,c051,2642,Cloves,feed
 p101,Dairy sheep husbandry,c114,2731,Bovine Meat,feed
 p101,Dairy sheep husbandry,c115,2732,Mutton & Goat Meat,feed
@@ -1369,7 +1369,7 @@ p102,Dairy goats husbandry,c039,2616,Plantains,feed
 p102,Dairy goats husbandry,c040,2617,Apples and products,feed
 p102,Dairy goats husbandry,c042,2619,Dates,feed
 p102,Dairy goats husbandry,c044,2625,"Fruits, Other",feed
-p102,Dairy goats husbandry,c046,39150.02,Cocoa husks and shells,feed
+p102,Dairy goats husbandry,c046,3915002,Cocoa husks and shells,feed
 p102,Dairy goats husbandry,c051,2642,Cloves,feed
 p102,Dairy goats husbandry,c114,2731,Bovine Meat,feed
 p102,Dairy goats husbandry,c115,2732,Mutton & Goat Meat,feed
@@ -1436,7 +1436,7 @@ p103,Dairy camels husbandry,c039,2616,Plantains,feed
 p103,Dairy camels husbandry,c040,2617,Apples and products,feed
 p103,Dairy camels husbandry,c042,2619,Dates,feed
 p103,Dairy camels husbandry,c044,2625,"Fruits, Other",feed
-p103,Dairy camels husbandry,c046,39150.02,Cocoa husks and shells,feed
+p103,Dairy camels husbandry,c046,3915002,Cocoa husks and shells,feed
 p103,Dairy camels husbandry,c051,2642,Cloves,feed
 p103,Dairy camels husbandry,c114,2731,Bovine Meat,feed
 p103,Dairy camels husbandry,c115,2732,Mutton & Goat Meat,feed
@@ -1463,8 +1463,8 @@ p114,"Camelids slaughtering, other",c107,1157,"Camelids, other",slaughtering
 p115,Rabbits slaughtering,c108,1140,Rabbits and hares,slaughtering
 p116,"Rodents slaughtering, other",c109,1150,"Rodents, other",slaughtering
 p122,Cocoa paste production,c046,1640,Cocoa beans,100%
-p121,Cocoa butter and powder production,c128,23610.01,Cocoa paste not defatted,100%
-p123,Chocolate production,c129,F0665,Cocoa powder and cake,100%
+p121,Cocoa butter and powder production,c128,2361001,Cocoa paste not defatted,100%
+p123,Chocolate production,c129,665,Cocoa powder and cake,100%
 p123,Chocolate production,c126,23620,"Cocoa butter, fat and oil",100%
 p124,"Coffee production, decaffeinated or roasted",c045,1610,"Coffee, green",TCF
 p125,Coffee extract production,c045,1610,"Coffee, green",TCF

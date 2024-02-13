@@ -168,12 +168,12 @@ p118,Beekeeping,c123,2745,Honey
 p119,Silkworm breeding,c124,2747,Silk
 p120,Fishing,c125,2960,"Fish, Seafood"
 p121,Cocoa butter and powder production,c126,23620,"Cocoa butter, fat and oil"
-p122,Cocoa paste production,c127,39150.02,Cocoa husks and shells
-p122,Cocoa paste production,c128,23610.01,Cocoa paste not defatted
-p121,Cocoa butter and powder production,c129,F0665,Cocoa powder and cake
-p123,Chocolate production,c130,F0666,Chocolate products nes
+p122,Cocoa paste production,c127,3915002,Cocoa husks and shells
+p122,Cocoa paste production,c128,2361001,Cocoa paste not defatted
+p121,Cocoa butter and powder production,c129,665,Cocoa powder and cake
+p123,Chocolate production,c130,666,Chocolate products nes
 p124,"Coffee production, decaffeinated or roasted",c131,23911,"Coffee, decaffeinated or roasted"
-p125,Coffee extract production,c132,23912.02,Coffee extracts
+p125,Coffee extract production,c132,2391202,Coffee extracts
 p126,Tea or mate extract production,c133,23914,"Extracts, essences and concentrates of tea or mate, and preparations with a basis thereof or with a basis of tea or mate"
 p127,Mate production,c134,1630,Mate leaves
-p128,Coffee substitute production,c135,23912.01,Coffee substitutes
+p128,Coffee substitute production,c135,2391201,Coffee substitutes
