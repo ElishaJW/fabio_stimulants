@@ -15,15 +15,14 @@ source("R/01_tidy_functions.R")
 project_path <- getwd()
 fabio_path <- "C:\\Users\\elishaw\\OneDrive - NTNU\\BAMBOO-personal\\FABIO Development\\fabio_stimulants"
 
-# Fetching data on just cocoa production in Cote d'Ivoire (test data)
-# data_cocoa_cotedivoire_2021_path <- paste0(project_path,
-#                                            "/SUA data/FAOSTAT_data_cocoa_cotedivoire_2021_table.csv")
-# data_cocoa_cotedivoire_2021 <- read.csv(data_cocoa_cotedivoire_2021_path)
+# Load Data
+
+regions <- fread("inst/regions_full.csv")
 
 cat("Fetching all SUA crop and livestock data for stimulant commodities.\n")
 sua_full_path <- paste0(fabio_path,
                         "\\input\\fao\\SUA_Crops_Livestock_E_All_Data_(Normalized).csv")
-sua_full <- read.csv(sua_full_path, encoding = 'ISO-8859-1')# = 'UTF-8')
+sua_full <- read.csv(sua_full_path)#, encoding = 'ISO-8859-1')# = 'UTF-8')
 
 #Tidy SUA data------------------------------------------------------------------
 
@@ -81,18 +80,16 @@ sua_full$item_code<-gsub("^0+", "", sua_full$item_code)
 sua_full$item_code<-gsub("F", "", sua_full$item_code)
 sua_full$item_code<-gsub("\\.", "", sua_full$item_code)
 
-# Modify country names with strange characters
+# Country / Area adjustments
+# sua_full <- area_kick(sua_full, code = 351, pattern = "China", groups = TRUE)
+# sua_full <- area_merge(sua_full, orig = 62, dest = 238, pattern = "Ethiopia")
+# sua_full <- area_merge(sua_full, orig = 206, dest = 276, pattern = "Sudan")
+# sua_full <- area_fix(sua_full, regions)
+
 sua_full <- sua_full %>%
-  mutate(area = ifelse(area_code == "107", "Cote dIvoire", area))
+  mutate(area = ifelse(area_code == "107", "Côte d'Ivoire", area))
 sua_full <- sua_full %>%
   mutate(area = ifelse(area_code == "223", "Turkey", area))
-
-# Set SUA data to the SUA_full dataset (can be tested with cocoa cotedivoire data) 
-# sua <- sua_full
-
-# List of Items (full)
-items_full_path <- paste0(fabio_path, "\\inst\\items_full.csv")
-items <- read.csv(items_full_path)
 
 
 #SUA -> CBS format--------------------------------------------------------------
@@ -101,21 +98,13 @@ items <- read.csv(items_full_path)
 
 cat("Converting stimulant SUA data into CBS format.\n")
 
-# Merge SUA data with the 'items' list to include data on comm_group, feedtype, etc.
-# PROBABLY NOT NECESSARY HERE
-sua_with_item_info <- merge(sua_full,
-                            items[items$item_code %in% sua_full$item_code, ],
-                            by = c("item_code", "item"),
-                            all.x = TRUE,
-                            indicator = TRUE)
-
 # Create a version of the SUA data with the 'element', or 'uses', as column names
-sua_pivot <- reshape2::dcast(sua_full,
+stim_sua <- reshape2::dcast(sua_full,
                              area_code + area + item_code + item + year ~ element,
                              value.var = "value")
 
 # Drop some unnecessary columns (according to CBS)
-sua_pivot <- sua_pivot[, !colnames(sua_pivot) %in% c("Fat supply quantity (g/capita/day)",
+stim_sua <- stim_sua[, !colnames(stim_sua) %in% c("Fat supply quantity (g/capita/day)",
                                                      "Protein supply quantity (g/capita/day)",
                                                      "Food supply (kcal/capita/day)",
                                                      "Food supply quantity (g/capita/day)",
@@ -123,7 +112,7 @@ sua_pivot <- sua_pivot[, !colnames(sua_pivot) %in% c("Fat supply quantity (g/cap
 
 # Rename columns to match CBS data
 # Stock variation == stock addition in SUA
-colnames(sua_pivot) <- c('area_code', 'area', 'item_code', 'item', 'year',
+colnames(stim_sua) <- c('area_code', 'area', 'item_code', 'item', 'year',
                          'Food supply (kcal)', 'exports',
                          'Fat supply quantity (t)', 'feed', 'food',
                          'imports', 'losses', 'other', 'processing',
@@ -131,13 +120,13 @@ colnames(sua_pivot) <- c('area_code', 'area', 'item_code', 'item', 'year',
                          'residuals','stock_addition', 'tourist')
 
 # Add some columns to match CBS, empty for now
-sua_pivot$total_supply <- 0
-sua_pivot$balancing <- 0
-# sua_pivot$unspecified <- NA
-sua_pivot$seed <- 0 #No seed included in SUA for stimulant commodities..
+stim_sua$total_supply <- 0
+stim_sua$balancing <- 0
+# stim_sua$unspecified <- NA
+stim_sua$seed <- 0 #No seed included in SUA for stimulant commodities..
 
 # Add an intuitive 'stock_withdrawal' column
-sua_pivot$stock_withdrawal <- -sua_pivot$stock_addition
+stim_sua$stock_withdrawal <- -stim_sua$stock_addition
 
 # Reorder columns to match CBS
 cbs_order <- c('area_code', 'area', 'item_code', 'item', 'year', 'total_supply', 'exports',
@@ -146,7 +135,7 @@ cbs_order <- c('area_code', 'area', 'item_code', 'item', 'year', 'total_supply',
                'residuals', 'seed', 'stock_withdrawal', 'tourist', 'stock_addition',
                'balancing')#, 'unspecified')
 
-stim_sua <- sua_pivot[cbs_order]
+stim_sua <- stim_sua[cbs_order]
 
 # Tidying data --------------------------------------------------------------
 
@@ -190,6 +179,8 @@ saveRDS(stim_sua, "data/stim_sua.rds")
 
 #### TO DO ####
 
+# -Country name concordance table?
+# -Mate name concordance
 # -Aggregate Tea leaves and Tea/Mate extracts
 #   > Probably best to do this after trade linking
 # -Include Tobacco commodities
