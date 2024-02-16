@@ -7,10 +7,13 @@
 
 # Load necessary libraries
 library(tidyverse)
+library("data.table")
+library(dplyr)
+source("R/01_tidy_functions.R")
 
 # Set paths
 project_path <- getwd()
-fabio_path <- "C:\\Users\\elishaw\\OneDrive - NTNU\\Git\\fabio"
+fabio_path <- "C:\\Users\\elishaw\\OneDrive - NTNU\\BAMBOO-personal\\FABIO Development\\fabio_stimulants"
 
 # Fetching data on just cocoa production in Cote d'Ivoire (test data)
 # data_cocoa_cotedivoire_2021_path <- paste0(project_path,
@@ -20,12 +23,19 @@ fabio_path <- "C:\\Users\\elishaw\\OneDrive - NTNU\\Git\\fabio"
 cat("Fetching all SUA crop and livestock data for stimulant commodities.\n")
 sua_full_path <- paste0(fabio_path,
                         "\\input\\fao\\SUA_Crops_Livestock_E_All_Data_(Normalized).csv")
-sua_full <- read.csv(sua_full_path, encoding = 'ISO-8859-1')
-
+sua_full <- read.csv(sua_full_path, encoding = 'ISO-8859-1')# = 'UTF-8')
 
 #Tidy SUA data------------------------------------------------------------------
 
 cat("Tidying SUA data for stimulant commodities.\n")
+
+# Changing names of Mate items based in item codes
+sua_full <- sua_full %>%
+  mutate(Item = ifelse(Item.Code..CPC. == "'01630", "Mate leaves", Item))
+sua_full <- sua_full %>%
+  mutate(Item = ifelse(Item.Code..CPC. == "'23914", "Extracts, essences and concentrates of tea or mate, and preparations with a basis thereof or with a basis of tea or mate", Item))
+
+# Subset for stimulant commodities
 sua_full <- sua_full %>%
   filter(Item %in% c('Chocolate products nes',
                      'Cocoa beans',
@@ -39,7 +49,7 @@ sua_full <- sua_full %>%
                      'Coffee, decaffeinated or roasted',
                      'Coffee extracts',
                      'Coffee substitutes',
-                     'Maté leaves')) %>%
+                     'Mate leaves')) %>%
   droplevels()
 
 # Change column names
@@ -65,18 +75,23 @@ sua_full$unit <- NULL
 sua_full$flag <- NULL
 
 # Eliminate unnecessary characters
-sua_full$item<-gsub("é", "e", sua_full$item)
 sua_full$area_code<-gsub("'", "", sua_full$area_code)
 sua_full$item_code<-gsub("'", "", sua_full$item_code)
 sua_full$item_code<-gsub("^0+", "", sua_full$item_code)
 sua_full$item_code<-gsub("F", "", sua_full$item_code)
 sua_full$item_code<-gsub("\\.", "", sua_full$item_code)
 
+# Modify country names with strange characters
+sua_full <- sua_full %>%
+  mutate(area = ifelse(area_code == "107", "Cote dIvoire", area))
+sua_full <- sua_full %>%
+  mutate(area = ifelse(area_code == "223", "Turkey", area))
+
 # Set SUA data to the SUA_full dataset (can be tested with cocoa cotedivoire data) 
 # sua <- sua_full
 
 # List of Items (full)
-items_full_path <- paste0(fabio_path, "\\inst\\items_full_new.csv")
+items_full_path <- paste0(fabio_path, "\\inst\\items_full.csv")
 items <- read.csv(items_full_path)
 
 
@@ -162,15 +177,31 @@ stim_sua$balancing <- na_sum(stim_sua$total_supply,
                           -stim_sua$tourist)
 stim_sua$balancing <- round(stim_sua$balancing)
 
+# Add 'processing' of Tea leaves into food consumption category
+stim_sua <- stim_sua %>%
+  mutate(food = ifelse(item == 'Tea leaves', processing + food, food),
+         processing = ifelse(item == 'Tea leaves', 0, processing))
 
-# # Show discrepancies of stock additions with 'total_supply'
-# cat("Found ", stim_sua[stim_sua$stock_addition > stim_sua$total_supply, .N],
-#     " occurences of 'stock_addition' exceeding 'total_supply'.\n",
-#     "Keeping values as is.\n", sep = "")
 
 # Save --------------------------------------------------------------------
 
 saveRDS(stim_sua, "data/stim_sua.rds")
+
+
+#### TO DO ####
+
+# -Aggregate Tea leaves and Tea/Mate extracts
+#   > Probably best to do this after trade linking
+# -Include Tobacco commodities
+#   > Aggregate all tobacco commodities for domestic supply and use
+#   > Includes cigarettes, cigars, unmanufactured tobacco
+#   > Do not include stock variation or residuals for tobacco
+#   > For trade data, add 'manufactured tobacco' on top of the aggregation
+#   > Balance afterwards
+# -Food supply from Cocoa powder is counted as food supply of chocolate products
+#   > NOTE: Data seems to overestimate chocolate consumption in cocoa
+#     producing countries.      
+
 
 
 
