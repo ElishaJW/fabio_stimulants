@@ -2,7 +2,7 @@
 library("data.table")
 library("Matrix")
 source("R/01_tidy_functions.R")
-source("R/stimulant_SUA_mods.R")
+source("R/15_stim_SUA_tidy.R")
 
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
