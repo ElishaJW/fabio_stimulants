@@ -128,14 +128,21 @@ stim_sua$seed <- 0 #No seed included in SUA for stimulant commodities..
 # Add an intuitive 'stock_withdrawal' column
 stim_sua$stock_withdrawal <- -stim_sua$stock_addition
 
+# # Reorder columns to match CBS
+# cbs_order <- c('area_code', 'area', 'item_code', 'item', 'year', 'total_supply', 'exports',
+#                'Fat supply quantity (t)', 'feed', 'food', 'Food supply (kcal)', 'imports',
+#                'losses', 'other', 'processing', 'production', 'Protein supply quantity (t)',
+#                'residuals', 'seed', 'stock_withdrawal', 'tourist', 'stock_addition',
+#                'balancing')#, 'unspecified')
+
 # Reorder columns to match CBS
 cbs_order <- c('area_code', 'area', 'item_code', 'item', 'year', 'total_supply', 'exports',
-               'Fat supply quantity (t)', 'feed', 'food', 'Food supply (kcal)', 'imports',
-               'losses', 'other', 'processing', 'production', 'Protein supply quantity (t)',
+               'feed', 'food', 'imports', 'losses', 'other', 'processing', 'production',
                'residuals', 'seed', 'stock_withdrawal', 'tourist', 'stock_addition',
                'balancing')#, 'unspecified')
 
 stim_sua <- stim_sua[cbs_order]
+
 
 # Tidying data --------------------------------------------------------------
 
@@ -171,6 +178,21 @@ stim_sua <- stim_sua %>%
   mutate(food = ifelse(item == 'Tea leaves', processing + food, food),
          processing = ifelse(item == 'Tea leaves', 0, processing))
 
+# Modifying the misreported values for production of Tea in China in 2020
+# Production is 100x too high
+mod_cols <- c("total_supply", "losses", "production")
+for (cols in mod_cols) {
+filter_condition <- stim_sua$area == "China, mainland" & stim_sua$item_code == 1620 & stim_sua$year == 2020
+stim_sua[filter_condition, cols] <- 
+  stim_sua[filter_condition, cols] / 100
+}
+# Stocks are 10000x too high
+mod_cols <- c("stock_withdrawal", "stock_addition")
+for (cols in mod_cols) {
+  filter_condition <- stim_sua$area == "China, mainland" & stim_sua$item_code == 1620 & stim_sua$year == 2020
+  stim_sua[filter_condition, cols] <- 
+    stim_sua[filter_condition, cols] / 10000
+}
 
 # Save --------------------------------------------------------------------
 
