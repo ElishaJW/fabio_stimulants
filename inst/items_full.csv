@@ -57,7 +57,7 @@ c055,2664,"Soft-Fibres, Other",tonnes,Primary crops,0,crops,Fibre crops
 c056,2665,Sisal,tonnes,Primary crops,0,crops,Fibre crops
 c057,2666,Abaca,tonnes,Primary crops,0,crops,Fibre crops
 c058,2667,"Hard Fibres, Other",tonnes,Primary crops,0,crops,Fibre crops
-c059,1970,Unmanufactured tobacco,tonnes,Primary crops,0,crops,"Tobacco, rubber"
+c059,826,Unmanufactured tobacco,tonnes,Primary crops,0,crops,"Tobacco, rubber"
 c060,2672,Rubber,tonnes,Primary crops,0,crops,"Tobacco, rubber"
 c061,2000,Fodder crops,tonnes,Primary crops,0.85,fodder,Fodder crops
 c062,2001,Grazing,tonnes,Primary crops,0.8,grass,Grazing
@@ -132,6 +132,6 @@ c132,2391202,Coffee extracts,tonnes,Crop products,,residues,"Coffee, tea, cocoa"
 c133,23914,"Extracts, essences and concentrates of tea or mate, and preparations with a basis thereof or with a basis of tea or mate",tonnes,Crop products,,residues,"Coffee, tea, cocoa"
 c134,1630,Mate leaves,tonnes,Crop products,,residues,"Coffee, tea, cocoa"
 c135,2391201,Coffee substitutes,tonnes,Crop products,,residues,"Coffee, tea, cocoa"
-c136,2502002,Cigars and cheroots,tonnes,Crop products,,residues,"Tobacco, rubber"
-c137,25090,"Other manufactured tobacco and manufactured tobacco substitutes; homogenized"" or ""reconstituted"" tobacco; tobacco extracts and essences""",tonnes,Crop products,,residues,"Tobacco, rubber"
-c138,2502001,Cigarettes,tonnes,Crop products,,residues,"Tobacco, rubber"
+c136,829,Cigars and cheroots,tonnes,Crop products,,residues,"Tobacco, rubber"
+c137,831,"Other manufactured tobacco and manufactured tobacco substitutes; homogenized"" or ""reconstituted"" tobacco; tobacco extracts and essences""",tonnes,Crop products,,residues,"Tobacco, rubber"
+c138,828,Cigarettes,tonnes,Crop products,,residues,"Tobacco, rubber"

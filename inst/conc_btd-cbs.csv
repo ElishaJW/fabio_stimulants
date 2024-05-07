@@ -296,10 +296,10 @@ btd_item_code,cbs_item_code,cbs_item
 809,2666,Abaca
 813,2667,"Hard Fibres, Other"
 821,2667,"Hard Fibres, Other"
-826,2671,Tobacco
-828,2671,Tobacco
-829,2671,Tobacco
-831,2671,Tobacco
+826,826,Unmanufactured tobacco
+828,828,Cigarettes
+829,829,Cigars and cheroots
+831,831,"Other manufactured tobacco and manufactured tobacco substitutes; homogenized"" or ""reconstituted"" tobacco; tobacco extracts and essences"""
 836,2672,Rubber
 837,2672,Rubber
 843,843,Pet food

@@ -45,7 +45,7 @@
 44,c044,2625,"Fruits, Other",c044,2625,"Fruits, Other"
 45,c045,1610,"Coffee, green",c045,1610,"Coffee, green"
 46,c046,1640,Cocoa beans,c046,1640,Cocoa beans
-47,c047,2635,Tea (including mate),c047,2635,Tea (including mate)
+47,c047,1620,Tea leaves,c047,1620,Tea leaves
 48,c048,677,Hops,c048,677,Hops
 49,c049,2640,Pepper,c049,2640,Pepper
 50,c050,2641,Pimento,c050,2641,Pimento
@@ -57,7 +57,7 @@
 56,c056,2665,Sisal,c056,2665,Sisal
 57,c057,2666,Abaca,c057,2666,Abaca
 58,c058,2667,"Hard Fibres, Other",c058,2667,"Hard Fibres, Other"
-59,c059,2671,Tobacco,c059,2671,Tobacco
+59,c059,826,Unmanufactured tobacco,c059,826,Unmanufactured tobacco
 60,c060,2672,Rubber,c060,2672,Rubber
 61,c061,2000,Fodder crops,c061,2000,Fodder crops
 62,c062,2001,Grazing,c062,2001,Grazing
@@ -134,3 +134,6 @@
 133,c133,23914,"Extracts, essences and concentrates of tea or mate, and preparations with a basis thereof or with a basis of tea or mate",c133,23914,"Extracts, essences and concentrates of tea or mate, and preparations with a basis thereof or with a basis of tea or mate"
 134,c134,1630,Mate leaves,c134,1630,Mate leaves
 135,c135,2391201,Coffee substitutes,c135,2391201,Coffee substitutes
+136,c136,829,Cigars and cheroots,c136,829,Cigars and cheroots
+137,c137,831,"Other manufactured tobacco and manufactured tobacco substitutes; homogenized"" or ""reconstituted"" tobacco; tobacco extracts and essences""",c137,831,"Other manufactured tobacco and manufactured tobacco substitutes; homogenized"" or ""reconstituted"" tobacco; tobacco extracts and essences"""
+138,c138,828,Cigarettes,c138,828,Cigarettes

@@ -164,7 +164,7 @@ crop_item_code,crop_item,cbs_item_code,cbs_item,tcf
 809,Manila fibre (abaca),2666,Abaca,1
 813,Coir,2667,"Hard Fibres, Other",1
 821,Fibre crops nes,2667,"Hard Fibres, Other",1
-826,"Tobacco, unmanufactured",2671,Tobacco,1
+826,"Tobacco, unmanufactured",826,Unmanufactured tobacco,1
 836,"Rubber, natural",2672,Rubber,1
 839,"Gums, natural",,,
 1717,"Cereals,Total",,,

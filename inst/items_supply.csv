@@ -57,7 +57,7 @@ p055,"Soft-Fibres production, Other",c055,2664,"Soft-Fibres, Other"
 p056,Sisal production,c056,2665,Sisal
 p057,Abaca production,c057,2666,Abaca
 p058,"Hard Fibres production, Other",c058,2667,"Hard Fibres, Other"
-p059,Tobacco production,c059,2671,Tobacco
+p059,Tobacco production,c059,826,Unmanufactured tobacco
 p060,Rubber production,c060,2672,Rubber
 p061,Fodder crops production,c061,2000,Fodder crops
 p062,Grazing production,c062,2001,Grazing
@@ -177,3 +177,6 @@ p125,Coffee extract production,c132,2391202,Coffee extracts
 p126,Tea or mate extract production,c133,23914,"Extracts, essences and concentrates of tea or mate, and preparations with a basis thereof or with a basis of tea or mate"
 p127,Mate production,c134,1630,Mate leaves
 p128,Coffee substitute production,c135,2391201,Coffee substitutes
+p129,Cigar and cheroot production,c136,829,Cigars and cheroots
+p130,Other tobacco production,c137,831,"Other manufactured tobacco and manufactured tobacco substitutes; homogenized"" or ""reconstituted"" tobacco; tobacco extracts and essences"""
+p131,Cigarette production,c138,828,Cigarettes

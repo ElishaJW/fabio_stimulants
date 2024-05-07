@@ -10,15 +10,15 @@ path_fao <- "input/fao/"
 
 files <- c(
   "prod" = "Production_Crops_Livestock_E_All_Data_(Normalized).zip", #"Production_Crops_E_All_Data_(Normalized).zip",
-  #"crop_proc" = "Production_CropsProcessed_E_All_Data_(Normalized).zip",
-  #"live_prod" = "Production_Livestock_E_All_Data_(Normalized).zip",
-  #"live_prim" = "Production_LivestockPrimary_E_All_Data_(Normalized).zip",
-  #"live_proc" = "Production_LivestockProcessed_E_All_Data_(Normalized).zip",
+  # "crop_proc" = "Production_CropsProcessed_E_All_Data_(Normalized).zip",
+  # "live_prod" = "Production_Livestock_E_All_Data_(Normalized).zip",
+  # "live_prim" = "Production_LivestockPrimary_E_All_Data_(Normalized).zip",
+  # "live_proc" = "Production_LivestockProcessed_E_All_Data_(Normalized).zip",
   # "trade_1" = "Trade_Crops_Livestock_E_All_Data_(Normalized).zip",
   "trad" = "Trade_CropsLivestock_E_All_Data_(Normalized).zip", #"Trade_LiveAnimals_E_All_Data_(Normalized).zip",
   "btd_prod" = "Trade_DetailedTradeMatrix_E_All_Data_(Normalized).zip",
-  #"cbs_crop" = "CommodityBalances_Crops_E_All_Data_(Normalized).zip",
-  #"cbs_live" = "CommodityBalances_LivestockFish_E_All_Data_(Normalized).zip",
+  # "cbs_crop" = "CommodityBalances_Crops_E_All_Data_(Normalized).zip",
+  # "cbs_live" = "CommodityBalances_LivestockFish_E_All_Data_(Normalized).zip",
   "cbs_food_new" = "FoodBalanceSheets_E_All_Data_(Normalized).zip",
   "cbs_food_old" = "FoodBalanceSheetsHistoric_E_All_Data_(Normalized).zip",
   "cbs_nonfood_old" = "CommodityBalances_(non-food)_E_All_Data_(Normalized).zip",
@@ -36,7 +36,7 @@ extr <- c(rep(NA, length(files) - 1), "Global_production_Quantity.csv")
 name <- names(files)
 
 # Links to the files
-links <- c(rep("http://fenixservices.fao.org/faostat/static/bulkdownloads/",
+links <- c(rep("https://fenixservices.fao.org/faostat/static/bulkdownloads/",
   length(files) - 1), "http://www.fao.org/fishery/static/Data/")
 
 # Column types to possibly skip some
@@ -76,6 +76,44 @@ fa_extract(path_in = path_fao, files = files,
   path_out = path_fao, name = name, extr = extr, col_types = col_types, read_method = read_method,
   rm = FALSE)
 
+#########################################################
+
+# Processing of nonfood cbs files
+# Same process as for other FAO files, just stripped down for specificity
+# Files MUST be downloaded and unzipped prior to executing this step
+
+col_types <- list(
+  "cbs_nonfood_old"  = c("numeric", "character", "character", "numeric", "character", "character", "numeric",
+                         "character", "numeric", "numeric", "character", "numeric", "character"),
+  "cbs_nonfood_new"  = c("numeric", "character", "character", "numeric", "character", "character", "numeric",
+                         "character", "numeric", "numeric", "character", "numeric", "character", "character")
+)
+
+files <- c(
+  "cbs_nonfood_old" = "CommodityBalances_(non-food)_E_All_Data_(Normalized).csv",
+  "cbs_nonfood_new" = "CommodityBalances_(non-food)_(2010-)_E_All_Data_(Normalized).csv")
+
+read_method = files
+read_method[] <- "fread"
+
+name <- names(files)
+
+dest_rds <- paste0(path_fao, "cbs_nonfood_old", ".rds")
+csv <- paste0(path_fao, files)
+rds <- vector("list", length(csv))
+
+for(i in seq_along(csv)) {
+  cat("Reading:", csv[i], "\n")
+  if(is.null(read_method) || read_method[i] == "fread") {
+    rds[[i]] <- data.table::fread(csv[i], colClasses = col_types[[i]])
+  }
+}
+
+for(i in seq_along(csv)) {
+  saveRDS(rds[[i]], paste0(path_fao, name[i], ".rds"))
+}
+
+#########################################################
 
 # Add primary crop production ---------------------------------------------
 
