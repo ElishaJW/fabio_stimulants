@@ -16,11 +16,12 @@ btd <- readRDS("data/btd_final.rds")
 use <- readRDS("data/use_final.rds")
 use_fd <- readRDS("data/use_fd_final.rds")
 
-years <- seq(1986, 2021)
+years <- seq(2010, 2021)
 areas <- unique(cbs$area_code)
+#areas <- unique(cbs[area_code != 999]$area_code)
 processes <- unique(use$proc_code)
 commodities <- unique(use$comm_code)
-
+commodities<-unique(items$comm_code)
 
 # Supply ---
 
@@ -52,7 +53,7 @@ mr_sup_mass <- mclapply(years, function(x) {
 
   # Return a block-diagonal matrix with all countries for year x
   return(bdiag(matrices))
-}, mc.cores = 10)
+}, mc.cores = 1)
 
 # Convert to monetary values
 sup[!is.na(price) & is.finite(price), value := production * price]
@@ -82,12 +83,12 @@ mr_sup_value <- mclapply(years, function(x) {
 
   # Return a block-diagonal matrix with all countries for year x
   return(bdiag(matrices))
-}, mc.cores = 10)
+}, mc.cores = 1)
 
 names(mr_sup_mass) <- names(mr_sup_value) <- years
 
-saveRDS(mr_sup_mass, "/mnt/nfs_fineprint/tmp/fabio/v1.2/mr_sup_mass.rds")
-saveRDS(mr_sup_value, "/mnt/nfs_fineprint/tmp/fabio/v1.2/mr_sup_value.rds")
+saveRDS(mr_sup_mass, "data/mr_sup_mass.rds")
+saveRDS(mr_sup_value, "data/mr_sup_value.rds")
 
 
 # Bilateral supply shares ---
@@ -114,7 +115,7 @@ btd_cast <- mclapply(years, function(x, btd_x) {
                 dimnames = list(paste0(out$from_code, "-", out$comm_code),
                                 colnames(out)[c(-1, -2)])))
 
-}, btd_x = btd[, .(year, from_code, to_code, comm_code, value)], mc.cores = 10)
+}, btd_x = btd[, .(year, from_code, to_code, comm_code, value)], mc.cores = 1)
 
 names(btd_cast) <- years
 
@@ -134,15 +135,17 @@ supply_shares <- mclapply(btd_cast, function(x, agg, js) {
   # Calculate shares (per country)
   out <- as.matrix(x / as.matrix(denom[rep(seq(length(commodities)), length(areas)), ]))
   out[!is.finite(out)] <- 0 # See Issue #75
-
+  # print(dim(out))
   # source is domestic, where no sources given in btd_final
-  for(i in 1:nrow(regions[cbs==TRUE])){
-    out[nrow(items)*(i-1)+62, i] <- 1
-  }
+  # for(i in 1:nrow(regions[cbs==TRUE])){
+  #   print(out[nrow(items)*(i-1)+62, i])
+  #   out[nrow(items)*(i-1)+62, i] <- 1
+  # }
+  # Commodity 61 is set to 1? Fodder crops?
 
   return(as(out, "Matrix"))
-}, agg = agg, js = js, mc.cores = 10)
-
+}, agg = agg, js = js, mc.cores = 1)
+sup_share_1998 <- supply_shares[["1998"]]
 
 # Use ---
 
@@ -164,7 +167,7 @@ use_cast <- mclapply(years, function(x, use_x) {
   return(Matrix(data.matrix(out[, c(-1)]), sparse = TRUE,
     dimnames = list(out$comm_code, colnames(out)[-1])))
 
-}, use_x = use[, .(year, area_code, proc_code, comm_code, use)], mc.cores = 10)
+}, use_x = use[, .(year, area_code, proc_code, comm_code, use)], mc.cores = 1)
 
 # Apply supply shares to the use matrix
 mr_use <- mcmapply(function(x, y) {
@@ -178,10 +181,10 @@ mr_use <- mcmapply(function(x, y) {
   }
 
   return(mr_x)
-}, use_cast, supply_shares, mc.cores = 10)
+}, use_cast, supply_shares, mc.cores = 1)
 
 names(mr_use) <- years
-saveRDS(mr_use, "/mnt/nfs_fineprint/tmp/fabio/v1.2/mr_use.rds")
+saveRDS(mr_use, "data/mr_use.rds")
 
 
 # Final Demand ---
@@ -208,7 +211,7 @@ use_fd_cast <- mclapply(years, function(x, use_fd_x) {
 
   Matrix(data.matrix(out[, -1]), sparse = TRUE,
     dimnames = list(out$comm_code, colnames(out)[-1]))
-}, use_fd[, .(year, area_code, comm_code, variable, value)], mc.cores = 6)
+}, use_fd[, .(year, area_code, comm_code, variable, value)], mc.cores = 1)
 
 # Apply supply shares to the final use matrix
 mr_use_fd <- mcmapply(function(x, y) {
@@ -219,10 +222,10 @@ mr_use_fd <- mcmapply(function(x, y) {
       mr_x[, seq(1 + (j - 1) * n_var, j * n_var)] * y[, j]
   }
   return(mr_x)
-}, use_fd_cast, supply_shares, mc.cores = 10)
+}, use_fd_cast, supply_shares, mc.cores = 1)
 
 mr_use_fd <- lapply(mr_use_fd, round)
 names(mr_use_fd) <- years
-saveRDS(mr_use_fd, "/mnt/nfs_fineprint/tmp/fabio/v1.2/mr_use_fd.rds")
+saveRDS(mr_use_fd, "data/mr_use_fd.rds")
 
 

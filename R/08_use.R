@@ -268,6 +268,7 @@ cat("Calculating feed demand from supply for the following items:\n\t",
   ".\n", sep = "")
 
 # Get indigenous livestock production in tonnes
+# live_b <- live[element == "Production" & unit == "t", ]
 live_b <- live[element == "Production" & unit == "tonnes", ]
 live_b[, `:=`(element = NULL, unit = NULL)]
 
@@ -425,12 +426,12 @@ if (run_optim){
 
   # Add processing / production information from the balances
   input <- merge(opt_in,
-    cbs[year > 1985, c("area_code", "year", "item_code", "processing")],
+    cbs[year > 2010, c("area_code", "year", "item_code", "processing")],
     by = "item_code", all.x = TRUE)
 
   input <- input[is.finite(processing) & processing > 0]
   output <- merge(opt_out,
-    cbs[year > 1985, c("area_code", "year", "item_code", "production")],
+    cbs[year > 2010, c("area_code", "year", "item_code", "production")],
     by = "item_code", all.x = TRUE)
   output <- output[is.finite(production) & production > 0]
 
@@ -495,7 +496,7 @@ if (run_optim){
     })
     return(rbindlist(res))
   #})
-  }, mc.cores = 10)
+  }, mc.cores = 1)
 
   results <- rbindlist(results)
   results[, result_in := round(result_in)]
@@ -503,7 +504,7 @@ if (run_optim){
 
   } else {
 
-  results <- readRDS("./data/optim_results_2023-07-11.rds")
+  results <- readRDS("./data/optim_results_2024-06-05.rds")
 
 }
 

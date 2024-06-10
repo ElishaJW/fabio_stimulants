@@ -6,9 +6,9 @@ library(readr)
 
 # MRIO Table ---
 
-mr_sup_m <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/mr_sup_mass.rds")
-mr_sup_v <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/mr_sup_value.rds")
-mr_use <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/mr_use.rds")
+mr_sup_m <- readRDS("data/mr_sup_mass.rds")
+mr_sup_v <- readRDS("data/mr_sup_value.rds")
+mr_use <- readRDS("data/mr_use.rds")
 
 # Mass
 trans_m <- mclapply(mr_sup_m, function(x) {
@@ -18,11 +18,11 @@ trans_m <- mclapply(mr_sup_m, function(x) {
   out[!is.finite(out)] <- 0 # See Issue #75
   #return(as(out, "Matrix"))
   return(out)
-}, mc.cores = 10)
+}, mc.cores = 1)
 
 Z_m <- mcmapply(function(x, y) {
   x %*% y
-}, x = mr_use, y = trans_m, mc.cores = 10)
+}, x = mr_use, y = trans_m, mc.cores = 1)
 
 Z_m <- lapply(Z_m, round)
 
@@ -35,11 +35,11 @@ trans_v <- mclapply(mr_sup_v, function(x) {
   out[!is.finite(out)] <- 0 # See Issue #75
   #return(as(out, "Matrix"))
   return(out)
-}, mc.cores = 10)
+}, mc.cores = 1)
 
 Z_v <- mcmapply(function(x, y) {
   x %*% y
-}, x = mr_use, y = trans_v, mc.cores = 10)
+}, x = mr_use, y = trans_v, mc.cores = 1)
 
 Z_v <- lapply(Z_v, round)
 
@@ -51,7 +51,7 @@ regions <- fread("inst/regions_full.csv")
 regions <- regions[cbs==TRUE]
 items <- fread("inst/items_full.csv")
 nrcom <- nrow(items)
-Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/mr_use_fd.rds")
+Y <- readRDS("data/mr_use_fd.rds")
 
 # Rebalance row sums for each year
 for(i in seq_along(Z_m)){
@@ -59,6 +59,7 @@ for(i in seq_along(Z_m)){
   X <- rowSums(Z_m[[i]]) + rowSums(Y[[i]])
 
   for(j in which(X < 0)){
+    print(j)
     reg <- j %/% nrcom + 1
     print(paste0(regions[reg, name], " / ", X[j]))
     Y[[i]][j, paste0(regions[reg, code], "_balancing")] <-
@@ -80,12 +81,12 @@ for(i in seq_along(Y)){
   
   Y[[i]] <- Y[[i]][, !grepl("residuals", colnames(Y[[i]]))]
   Y[[i]] <- Y[[i]][, !grepl("processing", colnames(Y[[i]]))]
-  
+   
 }
 
-fd_codes <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/fd_codes.csv")
+fd_codes <- fread("inst/fd_codes.csv")
 fd_codes <- fd_codes[!fd %in% c("residuals", "processing")]
-fwrite(fd_codes, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/fd_codes.csv")
+fwrite(fd_codes, file="data/fd_codes.csv")
 
 
 # Derive total output X ---------------------------------------------
@@ -96,10 +97,10 @@ X <- mapply(function(x, y) {
 
 
 # Store X, Y, Z variables
-saveRDS(Z_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/Z_mass.rds")
-saveRDS(Z_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/Z_value.rds")
-saveRDS(Y, "/mnt/nfs_fineprint/tmp/fabio/v1.2/Y.rds")
-saveRDS(X, "/mnt/nfs_fineprint/tmp/fabio/v1.2/X.rds")
+saveRDS(Z_m, "data/Z_mass.rds")
+saveRDS(Z_v, "data/Z_value.rds")
+saveRDS(Y, "data/Y.rds")
+saveRDS(X, "data/X.rds")
 
 
 
@@ -137,7 +138,7 @@ saveRDS(X, "/mnt/nfs_fineprint/tmp/fabio/v1.2/X.rds")
 
 # create the losses version of fabio ---
 
-years <- seq(1986, 2021)
+years <- seq(2010, 2021)
 
 # year <- 2019
 for(year in years){
@@ -189,8 +190,8 @@ for(year in years){
   
 }
 
-saveRDS(X, "/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/X.rds")
-saveRDS(Y, "/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Y.rds")
+saveRDS(X, "data/losses/X.rds")
+saveRDS(Y, "data/losses/Y.rds")
 # saveRDS(Z_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Z_mass.rds")
 # saveRDS(Z_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Z_value.rds")
 
@@ -207,9 +208,9 @@ ghg_names <- ghg[[1]][,1]
 gwp_names <- gwp[[1]][,1]
 luh_names <- luh[[1]][,1]
 
-write_csv(data.frame(ghg_names), "/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_names.csv")
-write_csv(data.frame(gwp_names), "/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_names.csv")
-write_csv(data.frame(luh_names), "/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_names.csv")
+write_csv(data.frame(ghg_names), "data/ghg_names.csv")
+write_csv(data.frame(gwp_names), "data/gwp_names.csv")
+write_csv(data.frame(luh_names), "data/luh_names.csv")
 
 range <- rep(c(1:97,99:116,118:120),192)+rep(((0:191)*121), each=118)
 
@@ -220,11 +221,11 @@ ghg_v <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = ghg, y =
 gwp_v <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = gwp, y = trans_v[1:28])
 luh_v <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = luh, y = trans_v[1:28])
 
-saveRDS(ghg_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_ghg_mass.rds")
-saveRDS(gwp_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_gwp_mass.rds")
-saveRDS(luh_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_luh_mass.rds")
+saveRDS(ghg_m, "data/E_ghg_mass.rds")
+saveRDS(gwp_m, "data/E_gwp_mass.rds")
+saveRDS(luh_m, "data/E_luh_mass.rds")
 
-saveRDS(ghg_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_ghg_value.rds")
-saveRDS(gwp_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_gwp_value.rds")
-saveRDS(luh_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_luh_value.rds")
+saveRDS(ghg_v, "data/E_ghg_value.rds")
+saveRDS(gwp_v, "data/E_gwp_value.rds")
+saveRDS(luh_v, "data/E_luh_value.rds")
 

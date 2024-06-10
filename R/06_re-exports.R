@@ -5,13 +5,14 @@ library("tidyverse")
 source("R/01_tidy_functions.R")
 
 
-years <- 1986:2021
+years <- 2010:2021
 
 
 # BTD ---------------------------------------------------------------------
 
 btd <- readRDS("data/btd_bal.rds")
 cbs <- readRDS("data/cbs_full.rds")
+#cbs <- cbs[cbs$item != "Cocoa\xa0beans", ]
 
 areas <- sort(unique(cbs$area_code))
 items <- sort(unique(btd$item_code))

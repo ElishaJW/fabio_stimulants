@@ -7,8 +7,9 @@ items <- fread("inst/items_full.csv")
 regions <- fread("inst/regions_full.csv")
 nrreg <- nrow(regions[cbs==TRUE])
 nrcom <- nrow(items)
+fabio_stimulant_path <- getwd()
 
-X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/X.rds")
+X <- readRDS(paste0(fabio_stimulant_path, "/data/X.rds"))
 grassland_yields <- fread("input/grazing/grazing.csv")
 water_crop <- fread("input/water/water_crop.csv")
 water_fodder <- water_crop[water_item == "Fodder crops/Managed grass"]
@@ -199,7 +200,7 @@ E <- lapply(years, function(x, y) {
 
 names(E) <- years
 
-saveRDS(E, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/E.rds")
+saveRDS(E, file="/data/E.rds")
 
 
 # build biodiversity extensions ---------------------------------------------------------
@@ -223,9 +224,9 @@ E_biodiv <- lapply(E, function(x) {
 })
 
 names(E_biodiv) <- years
-saveRDS(E_biodiv, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/E_biodiv.rds")
+saveRDS(E_biodiv, file="/data/E_biodiv.rds")
 biodiv_codes <- biodiv_codes[biodiv_codes$land %in% c("cropland", "pasture"),]
-write.csv(biodiv_codes, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/biodiv_codes.csv")
+write.csv(biodiv_codes, file="/data/biodiv_codes.csv")
 
 
 # extrapolate emissions data ---------------------------------------------------------

@@ -5,7 +5,7 @@ library("mipfp")
 
 source("R/01_tidy_functions.R")
 
-years <- 1986:2021
+years <- 2010:2021
 
 
 # BTD ---------------------------------------------------------------------
@@ -134,73 +134,4 @@ btd_bal <- rbindlist(btd_bal)
 saveRDS(btd_bal, "data/btd_bal.rds")
 
 
-i <- 27
-y <- years[i]
-cat("Calculating year ", y, ".\n", sep = "")
 
-# Add BTD values to the template
-mapping <- merge(mapping_templ,
-                 btd[year == y, c("from_code", "to_code", "item_code", "value")],
-                 by = c("from_code", "to_code", "item_code"), all.x = TRUE)
-# Add estimates
-mapping <- merge(mapping,
-                 btd_est[year == y, .(from_code, to_code, item_code, val_est = value)],
-                 by = c("from_code", "to_code", "item_code"), all.x = TRUE)
-# Prepare target-constraints for RAS
-constraint <- merge(constr_templ,
-                    target[year == y, c("area_code", "item_code", "imports", "exports")],
-                    by = c("area_code", "item_code"), all.x = TRUE)
-# Replace NA constraints with 0
-constraint[, `:=`(imports = ifelse(is.na(imports), 0, imports),
-                  exports = ifelse(is.na(exports), 0, exports))]
-# Balance imports and exports
-# Adjust constraints to have equal export and import numbers per item per year
-# This is very helpful for the iterative proportional fitting of bilateral trade data
-trade_bal <- constraint[, list(exp_t = sum(exports, na.rm = TRUE),
-                               imp_t = sum(imports, na.rm = TRUE)), by = c("item_code")]
-constraint <- merge(constraint, trade_bal,
-                    by = c("item_code"), all.x = TRUE)
-constraint[, `:=`(imports = ifelse(imp_t > exp_t, imports / imp_t * exp_t, imports),
-                  exports = ifelse(exp_t > imp_t, exports / exp_t * imp_t, exports))]
-
-# Eliminate estimates where data exist
-mapping[, val_est := ifelse(is.na(value), val_est, NA)]
-# Calculate totals for values and estimates per exporting country and item
-mapping[, `:=`(value_sum = na_sum(value), val_est_sum = na_sum(val_est)),
-        by = c("from_code","item_code")]
-# Add export target
-mapping[, val_target := constraint$exports[match(paste(mapping$from_code, mapping$item_code),
-                                                 paste(constraint$area_code, constraint$item_code))]]
-# Calculate export gap
-mapping[, gap := na_sum(val_target, -value_sum)]
-# Downscale export estimates in order not to exceed the total gap between reported exports and target values
-mapping[, val_est := ifelse(gap > 0, ifelse(gap < val_est_sum, val_est / val_est_sum * gap, val_est), NA)]
-
-# Assign estimates to value column with a weight of 10%
-mapping[, `:=`(
-  value = ifelse(is.na(value), ifelse(is.na(val_est), 0, val_est * 0.1), value),
-  val_est = NULL)]
-
-
-# Restructure in a list with matrices per item
-mapping_ras <- lapply(
-  split(mapping, by = "item_code", keep.by = FALSE),
-  function(x) {
-    out <- data.table::dcast(x, from_code ~ to_code,
-                             fun.aggregate = sum, value.var = "value")[, -"from_code"]
-    as(out, "matrix")})
-
-# Run iterative proportional fitting per item
-for(j in as.character(items)) {
-  mapping_ras[[j]] <- Ipfp(mapping_ras[[j]],
-                           target.list = list(1, 2), iter = 100, tol.margins = 1E5,
-                           target.data = constraint[item_code == j, .(round(exports), round(imports))])$x.hat
-}
-
-btd_bal[[i]] <- lapply(names(mapping_ras), function(name) {
-  out <- mapping_ras[[name]]
-  out <- data.table(from_code = colnames(out), as.matrix(out))
-  out <- melt(out, id.vars = c("from_code"), variable.name = "to_code", variable.factor = FALSE)
-  out[, .(year = y, item_code = as.integer(name),
-          from_code = as.integer(from_code), to_code = as.integer(to_code), value)]
-})
