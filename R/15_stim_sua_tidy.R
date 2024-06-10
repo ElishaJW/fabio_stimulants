@@ -13,7 +13,7 @@ source("R/01_tidy_functions.R")
 
 # Set paths
 project_path <- getwd()
-fabio_path <- "C:\\Users\\elishaw\\OneDrive - NTNU\\BAMBOO-personal\\FABIO Development\\fabio_stimulants"
+fabio_path <- "C:\\Users\\elishaw\\OneDrive - NTNU\\BAMBOO-personal\\WP3 - FABIO Development\\fabio_stimulants"
 
 # Load Data
 
@@ -81,10 +81,12 @@ sua_full$item_code<-gsub("F", "", sua_full$item_code)
 sua_full$item_code<-gsub("\\.", "", sua_full$item_code)
 
 # Country / Area adjustments
-# sua_full <- area_kick(sua_full, code = 351, pattern = "China", groups = TRUE)
-# sua_full <- area_merge(sua_full, orig = 62, dest = 238, pattern = "Ethiopia")
-# sua_full <- area_merge(sua_full, orig = 206, dest = 276, pattern = "Sudan")
-# sua_full <- area_fix(sua_full, regions)
+sua_full <- setDT(sua_full)
+sua_full$area_code <- as.numeric(as.character(sua_full$area_code))
+sua_full <- area_kick(sua_full, code = 351, pattern = "China", groups = TRUE)
+sua_full <- area_merge(sua_full, orig = 62, dest = 238, pattern = "Ethiopia")
+sua_full <- area_merge(sua_full, orig = 206, dest = 276, pattern = "Sudan")
+sua_full <- area_fix(sua_full, regions)
 
 sua_full <- sua_full %>%
   mutate(area = ifelse(area_code == "107", "Côte d'Ivoire", area))
@@ -194,6 +196,7 @@ for (cols in mod_cols) {
     stim_sua[filter_condition, cols] / 10000
 }
 
+
 # Save --------------------------------------------------------------------
 
 saveRDS(stim_sua, "data/stim_sua.rds")
@@ -214,8 +217,7 @@ saveRDS(stim_sua, "data/stim_sua.rds")
 # -Food supply from Cocoa powder is counted as food supply of chocolate products
 #   > NOTE: Data seems to overestimate chocolate consumption in cocoa
 #     producing countries.
-# -Data clean up
-#   > China tea 2021 is 100x too large
+
 
 
 
