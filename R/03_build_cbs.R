@@ -815,6 +815,9 @@ cat("\nRest (mostly 'food', 'feed' and 'processing') remains in 'unspecified', '
 
 # Save --------------------------------------------------------------------
 
+# Eliminate redundant cocoa bean entry in RoW after 2010
+cbs <- cbs[cbs$item != "Cocoa\xa0beans", ]
+
 saveRDS(cbs, "data/cbs_full.rds")
 saveRDS(btd, "data/btd_full.rds")
 
