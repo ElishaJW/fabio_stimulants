@@ -123,7 +123,7 @@ P <- P[!is.na(P$com) & !is.na(P$area_code),]
 
 
 # build extensions ---------------------------------------------------------
-years <- 1986:2021
+years <- 2010:2020
 
 E <- lapply(years, function(x, y) {
 
@@ -200,10 +200,96 @@ E <- lapply(years, function(x, y) {
 
 names(E) <- years
 
-saveRDS(E, file="/data/E.rds")
+saveRDS(E, file="E.rds")
 
 
-# build biodiversity extensions ---------------------------------------------------------
+#---------- Combine Emissions data with other stressor data from E--------------
+
+# Load emissions data
+ghg <- readRDS("./input/extensions/v1.2/E_ghg_mass.rds")
+ghg_names <- read.csv("./input/extensions/v1.2/ghg_names.csv")
+
+# Create list of all the stressors
+stressor_list <- c(colnames(E[['2020']])[8:13], as.list(ghg_names[,1]))
+
+for (year in years) {
+  
+  # Select year for each stressor matrix
+  E_year <- E[[as.character(year)]]
+  ghg_year <- as.matrix(ghg[[as.character(year)]])
+  
+  # Clean the E dataframe
+  E_year_clean <- E_year %>%
+    select(area_code, comm_code, landuse, biomass, blue, green, p_application, n_application)
+  
+  # Reshape the dataframe so that we have one row per stressor
+  E_year_clean <- E_year_clean %>%
+    pivot_longer(cols = c(landuse, biomass, blue, green, p_application, n_application),
+                 names_to = "stressor",
+                 values_to = "value")
+  
+  # Create a new column that combines 'area_code' and 'comm_code'
+  E_year_clean <- E_year_clean %>%
+    mutate(area_comm = paste(area_code, comm_code, sep = "_")) %>%
+    select(-area_code, -comm_code)  # Drop original 'Country' and 'Item_Code' columns
+  
+  # Reshape the dataframe so that we have one row per stressor and one column per country-item combination
+  E_year_clean <- E_year_clean %>%
+    pivot_wider(names_from = area_comm, values_from = value)
+  
+  # Convert to matrix 
+  E_year_mat <- as.matrix(E_year_clean[,-1])
+  
+  # Add column names to ghg matrix:
+  # Generate the full set of expected column names for the first str matrix
+  country_item_combinations <- colnames(E_year_mat)
+  # Extract country numbers and item numbers from the first matrix column names
+  country_item_list <- strsplit(country_item_combinations, "_")
+  country_item_df <- data.frame(matrix(unlist(country_item_list), ncol=2, byrow=TRUE))
+  colnames(country_item_df) <- c("Country", "Item")
+  # Get the unique countries
+  unique_countries <- unique(country_item_df$Country)
+  # Initialize an empty list to store the final column names
+  final_column_names_ghg <- c()
+  # Loop over each country and assign available item columns to ghg_year
+  for (country in unique_countries) {
+    # Get all items for this country in E_year
+    items_for_country <- country_item_df$Item[country_item_df$Country == country]
+    # Limit the number of items to match the available items in ghg_year
+    num_items_in_ghg <- 123
+      # Generate the corresponding column names for ghg_year
+    final_column_names_ghg <- c(final_column_names_ghg, paste(country, items_for_country[1:num_items_in_ghg], sep = "_"))
+  }
+  # Assign these colnames to ghg_year's columns
+  colnames(ghg_year) <- final_column_names_ghg
+  
+  # Identify the missing columns in ghg_year
+  missing_columns <- setdiff(country_item_combinations, colnames(ghg_year))
+  
+  # Add these missing columns with 0s to ghg_year
+  for (col in missing_columns) {
+    ghg_year <- cbind(ghg_year, matrix(0, nrow = nrow(ghg_year), ncol = 1))
+    colnames(ghg_year)[ncol(ghg_year)] <- col
+  }
+  
+  # Reorder columns in ghg_year to match E_year
+  ghg_year <- ghg_year[, country_item_combinations]
+  
+  # Combine the two stressor matrices (E and ghg)
+  E_full_year <- rbind(E_year_mat, ghg_year)
+  
+  #Add row names
+  rownames(E_full_year) <- stressor_list
+  
+  print(paste0("Saving E_full_", year))
+  saveRDS(E_full_year, file=paste0("./data/E_full_", year, ".rds"))
+}
+
+#write.csv(stressor_list, file="./data/stressor_list.csv", row.names = FALSE, col.names = FALSE)
+
+
+
+# build biodiversity extensions ------------------------------------------------
 # (potential species loss from land use per hectare)
 biodiv <- read_csv("./input/extensions/biodiversity.csv")
 biodiv_data <- t(biodiv[, -(1:3)])
@@ -229,7 +315,7 @@ biodiv_codes <- biodiv_codes[biodiv_codes$land %in% c("cropland", "pasture"),]
 write.csv(biodiv_codes, file="/data/biodiv_codes.csv")
 
 
-# extrapolate emissions data ---------------------------------------------------------
+# extrapolate emissions data ---------------------------------------------------
 library(Matrix)
 
 # read ghg emissions data
