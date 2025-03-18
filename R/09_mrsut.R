@@ -18,7 +18,7 @@ use_fd <- readRDS("data/use_fd_final.rds")
 
 years <- seq(2010, 2021)
 areas <- unique(cbs$area_code)
-#areas <- unique(cbs[area_code != 999]$area_code)
+
 processes <- unique(use$proc_code)
 commodities <- unique(use$comm_code)
 commodities<-unique(items$comm_code)
@@ -145,7 +145,6 @@ supply_shares <- mclapply(btd_cast, function(x, agg, js) {
 
   return(as(out, "Matrix"))
 }, agg = agg, js = js, mc.cores = 1)
-sup_share_1998 <- supply_shares[["1998"]]
 
 # Use ---
 

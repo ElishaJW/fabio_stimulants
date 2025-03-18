@@ -58,13 +58,13 @@ Ly <- list()
 
 for (year in years) {
   
-  # Dynamically access the L matrices for the current year
+  # Access the L matrices for the current year
   L_year <- get(paste0("L_", year))
   
   # Extract the corresponding slice from the 3D Y matrix
   Y_year <- Y[[as.character(year)]]
 
-  print(paste0("Calculating L*y for year", year))
+  print(paste0("Calculating L*y for year ", year))
   
   # Multiply
   Ly_year <- L_year %*% Y_year
@@ -137,19 +137,19 @@ for (i in 1:length(years)) {
   year <- years[i]
   Ly_year <- Ly[[i]]
   
-  # Dynamically access the stressor matrix for the current year using get()
+  # Access the stressor matrix for the current year using get()
   E_year <- get(paste0("E_", year))
   
   # Initialize a sublist for the current year to store results by stressor
   footprint_year <- list()
   
   # Track year
-  print(paste0("For year", year, "..."))
+  print(paste0("For year ", year, "..."))
   
   # Inner loop over each stressor
   for (s in 1:nrow(E_year)) {
     # Track stressor
-    print(paste0("Calculating", stressor_list[s], "footprints"))
+    print(paste("Calculating", stressor_list[s], "footprints"))
     
     # Get the stressor vector for the current stressor (row of E_year)
     e <- as.vector(E_year[s, ])
@@ -166,19 +166,18 @@ for (i in 1:length(years)) {
   
   # Store the sublist in the main list with the year as the key
   footprint[[as.character(year)]] <- footprint_year
+  
+  # Save as RDS files
+  print("Saving as RDS file")
+  saveRDS(footprint[[as.character(year)]], file=paste0("./data/str_footprint_", year, ".rds"))
+
 }
 
 # The 'footprint' list now contains a list for each year, with each sublist
 # containing matrices for each stressor.
 
 # Example: Access the footprint for the 1st stressor in 2010
-print(footprint[["2010"]][["landuse"]])
+#print(footprint[["2010"]][["landuse"]])
 
-# Save as RDS files
-for (year in years){
-  
-  saveRDS(footprint[[as.character(year)]], file=paste0("./data/footprint_str_", year, ".rds"))
-  
-}
 
 

@@ -37,7 +37,8 @@ water_crop <- merge(crop[unit == "tonnes" & value > 0 & item_code %in% unique(wa
   .(area_code, fao_code, item_code, item, water_type, intensity = value)],
   by = c("area_code", "fao_code"),
   all.x = TRUE, allow.cartesian = TRUE)
-water_crop <- water_crop[, `:=`(value = production * intensity)]
+# water_crop <- water_crop[, `:=`(value = production * intensity)]
+water_crop <- water_crop[, `:=`(value = intensity)] #Use intensities for stressor matrix
 water_crop[!area_code %in% regions[cbs==TRUE, code], `:=`(area_code = 999)]
 water_crop <- water_crop[, list(value = na_sum(value)),
   by = .(area_code, item_code, item, year, water_type)]
@@ -58,14 +59,15 @@ meat <- meat[!is.na(item_code), ]
 meat <- meat[, list(value = na_sum(value)),
   by = .(area_code, area, item_code, item, year)]
 meat$blue <- water_lvst$blue[match(meat$item_code, water_lvst$item_code)]
-meat[, `:=`(blue = blue * value, value = NULL)]
+# meat[, `:=`(blue = blue * value, value = NULL)]
+meat[, `:=`(value = NULL)] #Use intensities for stressor matrix
 
 # Calculate water footprint of livestock ---------------------------------------
 stocks <- live[element == "Stocks",
   .(area_code, area, year, item_code, item, value)]
 stocks$blue <- water_lvst$blue[match(stocks$item_code, water_lvst$item_code)]
-stocks[, `:=`(blue = blue * value, value = NULL)]
-
+# stocks[, `:=`(blue = blue * value, value = NULL)]
+stocks[, `:=`(value = NULL)] #Use intensities for stressor matrix
 water_lvst <- rbind(meat, stocks)
 rm(live, meat, stocks, src_item, tgt_item, tgt_name)
 
@@ -192,8 +194,10 @@ E <- lapply(years, function(x, y) {
   data[, output := NULL]
 
   # add N and P application (kg per ha)
-  data[, ':='(p_application = ifelse(is.na(P$value), 0, round(P$value * landuse, 3)),
-              n_application = ifelse(is.na(N$value), 0, round(N$value * landuse)))]
+  # data[, ':='(p_application = ifelse(is.na(P$value), 0, round(P$value * landuse, 3)),
+  #             n_application = ifelse(is.na(N$value), 0, round(N$value * landuse)))]
+  data[, ':='(p_application = ifelse(is.na(P$value), 0, round(P$value, 3)),
+              n_application = ifelse(is.na(N$value), 0, round(N$value)))] # Keep just intensities for stressor matrix
 
 
 }, y = crop[, .(year, element, area_code, item_code, value)])
@@ -213,33 +217,23 @@ ghg_names <- read.csv("./input/extensions/v1.2/ghg_names.csv")
 stressor_list <- c(colnames(E[['2020']])[8:13], as.list(ghg_names[,1]))
 
 for (year in years) {
-  
   # Select year for each stressor matrix
   E_year <- E[[as.character(year)]]
   ghg_year <- as.matrix(ghg[[as.character(year)]])
-  
   # Clean the E dataframe
   E_year_clean <- E_year %>%
-    select(area_code, comm_code, landuse, biomass, blue, green, p_application, n_application)
-  
-  # Reshape the dataframe so that we have one row per stressor
-  E_year_clean <- E_year_clean %>%
+    select(area_code, comm_code, landuse, biomass, blue, green, p_application, n_application) %>%
+    # Reshape the dataframe so that we have one row per stressor
     pivot_longer(cols = c(landuse, biomass, blue, green, p_application, n_application),
                  names_to = "stressor",
-                 values_to = "value")
-  
-  # Create a new column that combines 'area_code' and 'comm_code'
-  E_year_clean <- E_year_clean %>%
+                 values_to = "value") %>%
+    # Create a new column that combines 'area_code' and 'comm_code'
     mutate(area_comm = paste(area_code, comm_code, sep = "_")) %>%
-    select(-area_code, -comm_code)  # Drop original 'Country' and 'Item_Code' columns
-  
-  # Reshape the dataframe so that we have one row per stressor and one column per country-item combination
-  E_year_clean <- E_year_clean %>%
+    select(-area_code, -comm_code) %>% # Drop original 'Country' and 'Item_Code' columns
+    # Reshape the dataframe so that we have one row per stressor and one column per country-item combination
     pivot_wider(names_from = area_comm, values_from = value)
-  
   # Convert to matrix 
   E_year_mat <- as.matrix(E_year_clean[,-1])
-  
   # Add column names to ghg matrix:
   # Generate the full set of expected column names for the first str matrix
   country_item_combinations <- colnames(E_year_mat)
@@ -262,78 +256,90 @@ for (year in years) {
   }
   # Assign these colnames to ghg_year's columns
   colnames(ghg_year) <- final_column_names_ghg
-  
   # Identify the missing columns in ghg_year
   missing_columns <- setdiff(country_item_combinations, colnames(ghg_year))
-  
   # Add these missing columns with 0s to ghg_year
   for (col in missing_columns) {
     ghg_year <- cbind(ghg_year, matrix(0, nrow = nrow(ghg_year), ncol = 1))
     colnames(ghg_year)[ncol(ghg_year)] <- col
   }
-  
   # Reorder columns in ghg_year to match E_year
   ghg_year <- ghg_year[, country_item_combinations]
-  
   # Combine the two stressor matrices (E and ghg)
   E_full_year <- rbind(E_year_mat, ghg_year)
-  
   #Add row names
   rownames(E_full_year) <- stressor_list
-  
+  # Add 'landuse_per_tonne' row
+  landuse_per_tonne<- E_full_year["landuse", ] / E_full_year["biomass", ]   # make new row for landuse (ha/tonne)
+  landuse_per_tonne[is.nan(landuse_per_tonne) | is.infinite(landuse_per_tonne)] <- 0  # Handle division issues
+  E_full_year <- rbind(landuse_per_tonne, E_full_year)
+  rownames(E_full_year)[1] <- "landuse_per_tonne"
+  # Multiply specific rows by 'landuse_per_tonne' to get nutrient application per tonne
+  for (row in c("n_application", "p_application")) {
+    E_full_year[row, ] <- E_full_year[row, ] * E_full_year["landuse_per_tonne", ]
+  }
+  # Remove 'landuse' and 'biomass' rows
+  E_full_year <- E_full_year[!rownames(E_full_year) %in% c("landuse", "biomass"), ]
+  # Reformat and normalize to unit/tonne
+  rownames(E_full_year)[1] <- "landuse" # Now 'landuse' stressor is in ha per tonne
+  E_full_year["landuse", ] <- E_full_year["landuse", ] * 10000 # Convert ha to sqm
+  E_full_year[6:31, ] <- E_full_year[6:31, ] * 1000 # Convert kg to tonnes
+  # Save as RDS
   print(paste0("Saving E_full_", year))
   saveRDS(E_full_year, file=paste0("./data/E_full_", year, ".rds"))
 }
 
+
+
 #write.csv(stressor_list, file="./data/stressor_list.csv", row.names = FALSE, col.names = FALSE)
-
-
-
-# build biodiversity extensions ------------------------------------------------
-# (potential species loss from land use per hectare)
-biodiv <- read_csv("./input/extensions/biodiversity.csv")
-biodiv_data <- t(biodiv[, -(1:3)])
-biodiv_codes <- biodiv[, 1:3]
-biodiv_data <- biodiv_data[regions[cbs==TRUE, iso3c],]
-
-E_biodiv <- lapply(E, function(x) {
-  # data <- merge(x[,1:8], aggregate(x$landuse, by=list(area_code=x$area_code), FUN=sum),
-  #                   by = "area_code", all.x = TRUE)
-  # data[item == "Grazing", x := landuse]
-  data2 <- biodiv_data[rep(1:192, each = 123),]
-  colnames(data2) <- paste0(biodiv_codes$species,"_",biodiv_codes$land)
-  data2[x$item != "Grazing", grepl("pasture", colnames(data2))] <- 0
-  data2[x$item == "Grazing", grepl("cropland", colnames(data2))] <- 0
-  data2 <- data2 * x$landuse
-  data2[!is.finite(data2)] <- 0
-  data <- cbind(x[,1:7], data2)
-})
-
-names(E_biodiv) <- years
-saveRDS(E_biodiv, file="/data/E_biodiv.rds")
-biodiv_codes <- biodiv_codes[biodiv_codes$land %in% c("cropland", "pasture"),]
-write.csv(biodiv_codes, file="/data/biodiv_codes.csv")
-
-
-# extrapolate emissions data ---------------------------------------------------
-library(Matrix)
-
-# read ghg emissions data
-ghg <- list()
-names <- c("ghg_mass", "gwp_mass", "luh_mass", "ghg_value", "gwp_value", "luh_value")
-for(i in seq_along(names)){
-  ghg[[i]] <- readRDS(paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/E_",names[i],".rds"))
-}
-
-# extrapolate emissions data
-for(i in 2014:years[length(years)]){
-  for(j in 1:length(ghg)){
-    data <- t(t(ghg[[j]][["2013"]]) / X[,"2013"] * X[,as.character(i)])
-    data[!is.finite(data)] <- 0
-    ghg[[j]][[as.character(i)]] <- data
-  }
-}
-
-for(i in seq_along(names)){
-  saveRDS(ghg[[i]], paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/E_",names[i],".rds"))
-}
+# 
+# 
+# 
+# # build biodiversity extensions ------------------------------------------------
+# # (potential species loss from land use per hectare)
+# biodiv <- read_csv("./input/extensions/biodiversity.csv")
+# biodiv_data <- t(biodiv[, -(1:3)])
+# biodiv_codes <- biodiv[, 1:3]
+# biodiv_data <- biodiv_data[regions[cbs==TRUE, iso3c],]
+# 
+# E_biodiv <- lapply(E, function(x) {
+#   # data <- merge(x[,1:8], aggregate(x$landuse, by=list(area_code=x$area_code), FUN=sum),
+#   #                   by = "area_code", all.x = TRUE)
+#   # data[item == "Grazing", x := landuse]
+#   data2 <- biodiv_data[rep(1:192, each = 123),]
+#   colnames(data2) <- paste0(biodiv_codes$species,"_",biodiv_codes$land)
+#   data2[x$item != "Grazing", grepl("pasture", colnames(data2))] <- 0
+#   data2[x$item == "Grazing", grepl("cropland", colnames(data2))] <- 0
+#   data2 <- data2 * x$landuse
+#   data2[!is.finite(data2)] <- 0
+#   data <- cbind(x[,1:7], data2)
+# })
+# 
+# names(E_biodiv) <- years
+# saveRDS(E_biodiv, file="/data/E_biodiv.rds")
+# biodiv_codes <- biodiv_codes[biodiv_codes$land %in% c("cropland", "pasture"),]
+# write.csv(biodiv_codes, file="/data/biodiv_codes.csv")
+# 
+# 
+# # extrapolate emissions data ---------------------------------------------------
+# library(Matrix)
+# 
+# # read ghg emissions data
+# ghg <- list()
+# names <- c("ghg_mass", "gwp_mass", "luh_mass", "ghg_value", "gwp_value", "luh_value")
+# for(i in seq_along(names)){
+#   ghg[[i]] <- readRDS(paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/E_",names[i],".rds"))
+# }
+# 
+# # extrapolate emissions data
+# for(i in 2014:years[length(years)]){
+#   for(j in 1:length(ghg)){
+#     data <- t(t(ghg[[j]][["2013"]]) / X[,"2013"] * X[,as.character(i)])
+#     data[!is.finite(data)] <- 0
+#     ghg[[j]][[as.character(i)]] <- data
+#   }
+# }
+# 
+# for(i in seq_along(names)){
+#   saveRDS(ghg[[i]], paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/E_",names[i],".rds"))
+# }
