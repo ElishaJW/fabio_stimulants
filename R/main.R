@@ -1,4 +1,6 @@
 
+setwd("C:/Users/elishaw/OneDrive - NTNU/BAMBOO-personal/WP3 - FABIO Development/fabio_stimulants")
+
 # 0_prep ------------------------------------------------------------------
 
 library("data.table") # 1.12.0
@@ -56,5 +58,5 @@ source("R/11_leontief_inverse.R")
 # Prepare env. extensions
 source("R/12_extensions.R")
 
-# Create sheets with IO codes for users
-source("R/13_codes.R")
+# Calculate stressor footprints
+source("R/16_footprinting.R")
