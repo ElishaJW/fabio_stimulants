@@ -154,10 +154,59 @@ x_branch <- x_stim
 
 # Select commodity and country to assess
 filter_commodity <- "c046"
-filter_country <- "C\xf4te d\x92Ivoire"
+filter_country <- "Norway"
 
 # Execute!
 examine_y(filter_country, filter_commodity, y=y_branch_year, x=x_branch)
+
+
+
+
+
+
+
+
+# # Identify the number of countries in the dataset
+# num_countries <- length(unique(regions$area_code)) # Assuming 'regions' contains area codes
+# 
+# # Identify the number of commodities
+# num_commodities <- length(y_no_cons) / num_countries  # Assuming equal distribution
+# 
+# # Generate country and commodity labels based on order
+# countries <- rep(regions$area, each = num_commodities)
+# commodities <- rep(unique(items$comm_code), times = num_countries)
+# 
+# # Create Data Frame
+# df <- data.frame(
+#   Country = countries,
+#   Commodity = commodities,
+#   Export_Value = y_no_cons
+# )
+# 
+# # Filter to only food commodities
+# food_commodities <- unique(df$Commodity)  # Modify if you have a predefined list
+# df_food <- df %>% filter(Commodity %in% food_commodities)
+# 
+# # Rank exporters by commodity
+# df_ranked <- df_food %>%
+#   group_by(Commodity) %>%
+#   arrange(desc(Export_Value), .by_group = TRUE) %>%
+#   mutate(Rank = row_number())
+# 
+# # Display top exporters for each food commodity
+# print(df_ranked)
+# 
+# df_ranked$Country <- enc2utf8(df_ranked$Country)
+# 
+# write.csv(df_ranked, "top_exporters_to_Norway.csv", row.names = FALSE)
+# 
+# 
+
+
+
+
+
+
 
 
 ######### Assessing total cons.of a commodity by country ######################
@@ -210,7 +259,7 @@ total_cons_y <- function(filter_commodity, y){
 # Select commodity and country to assess
 filter_commodity <- "c045"
 #filter_commodity <- "c131" # Coffee roasted 
-y <- y_stim[['2013']]
+y <- y_stim[['2020']]
 
 # Execute!
 total_cons_y(filter_commodity=filter_commodity, y=y)

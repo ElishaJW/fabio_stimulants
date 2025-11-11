@@ -314,7 +314,7 @@ bd_fp_for_chosen_impact_category <- bd_fp_total
 
 
 # CHOOSE ONE OF THE FOLLOWING: -------------------------------------------------
-# SUM ACROSS CONSUMPTION CATEGORIES FOR EACH COUNTRY----------------------------
+# 1) SUM ACROSS CONSUMPTION CATEGORIES FOR EACH COUNTRY-------------------------
 country_code <- regions$area_code
 # Now sum across consumption categories for each country
 bd_fp_total_by_country_filtered <- bd_fp_for_chosen_impact_category
@@ -335,7 +335,7 @@ for (country in colnames(bd_fp_total_by_country)) {
 bd_fp_total_by_country <- as.data.frame(bd_fp_total_by_country)
 
 
-# OR SUM ACROSS CONSUMPTION CATEGORIES FOR EACH COUNTRY EXCEPT 'OTHER'----------
+# 2) OR SUM ACROSS CONSUMPTION CATEGORIES FOR EACH COUNTRY EXCEPT 'OTHER'-------
 # Filter out columns that contain 'other'
 bd_fp_total_by_country_ex_other_filtered <- bd_fp_for_chosen_impact_category[, !grepl("other", colnames(bd_fp_for_chosen_impact_category))]
 # Initialize an empty matrix to store the results
@@ -355,7 +355,7 @@ for (country in colnames(bd_fp_total_by_country_ex_other)) {
 bd_fp_total_by_country_ex_other <- as.data.frame(bd_fp_total_by_country_ex_other)
 
 
-# OR JUST TAKE THE FOOD CONUMPTION CATEGORY-------------------------------------
+# 3) OR JUST TAKE THE FOOD CONUMPTION CATEGORY----------------------------------
 country_code <- regions$area_code
 bd_fp_food_by_country <- bd_fp_for_chosen_impact_category
 # Extract country codes from column names
@@ -369,6 +369,7 @@ rownames(bd_fp_food_by_country) <- rownames(bd_fp_water)
 
 
 # CHOOSE CONSUMPTION CATEGORIES HERE:-------------------------------------------
+bd_fp_for_chosen_cons_category <- bd_fp_food_by_country
 bd_fp_for_chosen_cons_category <- bd_fp_total_by_country
 
 
@@ -479,7 +480,7 @@ top_10_consumers_shares <- top_10_consumers_shares %>%
 
 # Change 'other other' to 'other'
 top_10_consumers_shares <- top_10_consumers_shares %>%
-  mutate(legend_label = recode(legend_label, "other other" = "other"))
+  mutate(legend_label = recode(legend_label, "other other" = "Other"))
 
 
 # Generate colors for legend labels
@@ -505,22 +506,26 @@ bar_plot <- ggplot(
   geom_bar(stat = "identity", position = "stack") +
   scale_y_continuous(labels = scales::scientific_format()) +
   scale_fill_manual(
-    values = prod_commodity_colors,
-    guide = guide_legend(title = "Commodity and Producer")
+    values = prod_commodity_colors#,
+    #guide = guide_legend(title = "Commodity and Producer")
   ) +
   labs(
     #title = "Top Biodiversity Footprint Contributions by Consuming Country",
     x = "Consuming Country",
-    y = "Biodiversity Footprint (PDF)"
+    y = "Biodiversity Footprint (PDF)",
+    fill = "Commodity & Producer"
   ) +
   theme_minimal() +
+  guides(fill=guide_legend(ncol=3)) +
   theme(
     axis.text.x = element_text(angle = 45, hjust = 1),
     legend.background = element_rect(fill = "white", color = "grey"),
-    legend.text = element_text(size = 8),
-    legend.key.size = unit(0.7, "cm"),
-    legend.position = c(0.95,0.95),
+    legend.text = element_text(size = 7),
+    legend.key.size = unit(0.5, "cm"),
+    legend.position = "inside",
+    legend.position.inside = c(1,0.95),
     legend.justification = c(1, 1),
+    legend.title = element_text(size = 10),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
     panel.background = element_rect(fill = "white", color = "white"),
@@ -655,11 +660,11 @@ top_10_consumers_shares_per_cap <- top_10_consumers_shares_per_cap %>%
 
 # Change 'other other' to 'other'
 top_10_consumers_shares_per_cap <- top_10_consumers_shares_per_cap %>%
-  mutate(legend_label = recode(legend_label, "other other" = "other"))
+  mutate(legend_label = recode(legend_label, "other other" = "Other"))
 
 
 # Generate colors for legend labels
-prod_commodity_colors <- setNames(
+prod_commodity_colors_per_cap <- setNames(
   unlist(lapply(levels(top_10_consumers_shares_per_cap$legend_group), function(group) {
     # Filter rows for the current group
     group_rows <- top_10_consumers_shares_per_cap %>% filter(legend_group == group)
@@ -681,22 +686,26 @@ bar_plot_per_cap <- ggplot(
   geom_bar(stat = "identity", position = "stack") +
   scale_y_continuous(labels = scales::scientific_format()) +
   scale_fill_manual(
-    values = prod_commodity_colors,
-    guide = guide_legend(title = "Producer & Commodity")
+    values = prod_commodity_colors_per_cap#,
+    #guide = guide_legend(title = "Producer & Commodity")
   ) +
   labs(
     # title = "Top Biodiversity Footprint Contributions Per Capita by Consuming Country",
     x = "Consuming Country",
-    y = "Biodiversity Footprint per Capita (PDF/cap)"
+    y = "Biodiversity Footprint per Capita (PDF/cap)",
+    fill = "Commodity & Producer"
   ) +
+  guides(fill=guide_legend(ncol=3)) +
   theme_minimal() +
   theme(
     axis.text.x = element_text(angle = 45, hjust = 1),
     legend.background = element_rect(fill = "white", color = "grey"),
-    legend.text = element_text(size = 10),
-    legend.key.size = unit(0.6, "cm"),
-    legend.position = c(0.95,0.95),
+    legend.text = element_text(size = 7),
+    legend.key.size = unit(0.5, "cm"),
+    legend.position = "inside",
+    legend.position.inside = c(1,0.95),
     legend.justification = c(1, 1),
+    legend.title = element_text(size = 10),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
     panel.background = element_rect(fill = "white", color = "white"),

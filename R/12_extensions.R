@@ -229,26 +229,27 @@ for (year in years) {
                  values_to = "value") %>%
     # Create a new column that combines 'area_code' and 'comm_code'
     mutate(area_comm = paste(area_code, comm_code, sep = "_")) %>%
-    select(-area_code, -comm_code) %>% # Drop original 'Country' and 'Item_Code' columns
+    select(-area_code, -comm_code) %>% # Drop original 'country' and 'Item_Code' columns
     # Reshape the dataframe so that we have one row per stressor and one column per country-item combination
     pivot_wider(names_from = area_comm, values_from = value)
   # Convert to matrix 
   E_year_mat <- as.matrix(E_year_clean[,-1])
+  
   # Add column names to ghg matrix:
   # Generate the full set of expected column names for the first str matrix
   country_item_combinations <- colnames(E_year_mat)
   # Extract country numbers and item numbers from the first matrix column names
   country_item_list <- strsplit(country_item_combinations, "_")
   country_item_df <- data.frame(matrix(unlist(country_item_list), ncol=2, byrow=TRUE))
-  colnames(country_item_df) <- c("Country", "Item")
+  colnames(country_item_df) <- c("country", "item")
   # Get the unique countries
-  unique_countries <- unique(country_item_df$Country)
+  unique_countries <- unique(country_item_df$country)
   # Initialize an empty list to store the final column names
   final_column_names_ghg <- c()
   # Loop over each country and assign available item columns to ghg_year
   for (country in unique_countries) {
     # Get all items for this country in E_year
-    items_for_country <- country_item_df$Item[country_item_df$Country == country]
+    items_for_country <- country_item_df$item[country_item_df$country == country]
     # Limit the number of items to match the available items in ghg_year
     num_items_in_ghg <- 123
       # Generate the corresponding column names for ghg_year
@@ -283,7 +284,8 @@ for (year in years) {
   # Reformat and normalize to unit/tonne
   rownames(E_full_year)[1] <- "landuse" # Now 'landuse' stressor is in ha per tonne
   E_full_year["landuse", ] <- E_full_year["landuse", ] * 10000 # Convert ha to sqm
-  E_full_year[6:31, ] <- E_full_year[6:31, ] * 1000 # Convert kg to tonnes
+  #E_full_year[6:31, ] <- E_full_year[6:31, ] * 1000 # Convert ghg emissions per kg to ghg emissions per tonne 
+                                                    #  (ALREADY PER TONNE??)
   # Save as RDS
   print(paste0("Saving E_full_", year))
   saveRDS(E_full_year, file=paste0("./data/E_full_", year, ".rds"))
@@ -291,8 +293,6 @@ for (year in years) {
 
 
 
-#write.csv(stressor_list, file="./data/stressor_list.csv", row.names = FALSE, col.names = FALSE)
-# 
 # 
 # 
 # # build biodiversity extensions ------------------------------------------------
