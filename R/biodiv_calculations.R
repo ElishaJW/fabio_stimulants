@@ -13,7 +13,7 @@ str_fp <- readRDS(paste0("./data/str_footprint_",year,".rds"))
 items <- fread("inst/items_full.csv")
 items_stim <- items[items$comm_group == "Coffee, tea, cocoa" | items$comm_group == "Tobacco, rubber" & items$comm_code != 'c060']$comm_code
 regions <- fread("inst/regions_fabio.csv", )
-landuse_cf <- fread("X:/Eli/DATA/cf/land use/CF_country.csv")
+landuse_cf <- fread("X:/Eli/DATA/cf/land use/CF_domain_country.csv")
 water_cf <- read.xlsx("X:/Eli/DATA/cf/water consumption/water.xlsx", sheet="Country_CF")
 N_cf <- read.xlsx("X:/Eli/DATA/cf/freshwater eutrophication/CFs_freshwater_eutrophication/global_species_loss/N/Country_CF_N.xlsx")
 P_cf <- read.xlsx("X:/Eli/DATA/cf/freshwater eutrophication/CFs_freshwater_eutrophication/global_species_loss/P/Country_CF_P.xlsx")
@@ -31,17 +31,16 @@ row_names <- paste(combinations$Var1, combinations$Var2, sep = "_")
 
 
 
+
 ############### BD FOOTPRINT BY COUNTRY and CONS CATEGORY ######################
 
 
 #---------------------LAND USE BD FOOTPRINT BY COUNTRY--------------------------
-# PROCESSING landuse CF-------------------------------------------------
-# Filter rows where the 'HABITAT' column contains the string 'cropland'
-landuse_cf <- landuse_cf[grepl("Cropland", landuse_cf$habitat), ]
 
-# Filter rows where the 'HABITAT' column contains the string 'intense'
+# PROCESSING landuse CF---------------------------------------------------------
+
+# Filter rows for "Intense" land use intensity
 landuse_cf <- landuse_cf[grepl("Intense", landuse_cf$habitat), ]
-
 # Rename column 'iso3cd' to 'iso3c'
 colnames(landuse_cf)[colnames(landuse_cf) == "iso3cd"] <- "iso3c"
 
@@ -62,7 +61,26 @@ landuse_cf <- landuse_cf[, !c("CF_occ_avg_reg",
                               "CF_tra_mar_glo",
                               "CF_tra_mar_glo_rsd",
                               "quality_reg",
-                              "quality_glo" )]
+                              "quality_glo",
+                              "kingdom",
+                              "species_group")]
+
+# Get cropland, urban and pasture CFs as separate lookup tables
+landuse_cf_cropland <- landuse_cf %>%
+  filter(grepl("Cropland", habitat)) %>%
+  select(iso3c, CF_occ_avg_glo) %>%
+  rename(cf_cropland = CF_occ_avg_glo)
+
+landuse_cf_pasture <- landuse_cf %>%
+  filter(grepl("Pasture", habitat)) %>%
+  select(iso3c, CF_occ_avg_glo) %>%
+  rename(cf_pasture = CF_occ_avg_glo)
+
+landuse_cf_urban <- landuse_cf %>%
+  filter(grepl("Urban", habitat)) %>%
+  select(iso3c, CF_occ_avg_glo) %>%
+  rename(cf_urban = CF_occ_avg_glo)
+
 
 
 # PROCESSING landuse FOOTRPINT MATRIX-------------------------------------------
@@ -80,21 +98,34 @@ bd_fp_landuse$comm_code <- sub("_.*", "", rownames(bd_fp_landuse))
 
 # Add column for corresponding iso3 code
 bd_fp_landuse <- bd_fp_landuse %>%
-  left_join(regions[, c('area_code', 'iso3c')], by = "area_code")
+  left_join(regions[, c('area_code', 'iso3c')], by = "area_code")%>%
+  left_join(items[, c("comm_code", "group")], by = "comm_code")
 
-# Average landuse CF across species groups!!!!!
-landuse_cf <- landuse_cf %>%
-  group_by(iso3c) %>%
-  summarise(across(CF_occ_avg_glo, mean, .groups = 'drop'))
-
-# Join the land use dataframe with the characterization factors dataframe by country code
+# Join the land use dataframe with the characterization factors by country code
 bd_fp_landuse <- bd_fp_landuse %>%
-  left_join(landuse_cf, by = "iso3c")
+  left_join(landuse_cf_cropland, by = "iso3c") %>%
+  left_join(landuse_cf_pasture, by = "iso3c") %>%
+  left_join(landuse_cf_urban, by = "iso3c") 
+
+# Make sure that land use cfs correspond to the correct commodities 
+# (e.g., Livestock gets "pasture", etc.)
+bd_fp_landuse$cf_landuse <- case_when(
+                            bd_fp_landuse$group == "Livestock" ~ bd_fp_landuse$cf_pasture,
+                            grepl("products", bd_fp_landuse$group, ignore.case = TRUE) ~ bd_fp_landuse$cf_urban,
+                            TRUE                         ~ bd_fp_landuse$cf_cropland)
 
 # Multiply the footprint values by the characterization factors---------------
-# Multiply all columns except 'country_code', 'comm_code' and rownames contained in the CF
-cols_to_multiply <- colnames(bd_fp_landuse)[!colnames(bd_fp_landuse) %in% c("area_code", "comm_code", colnames(landuse_cf))]
-bd_fp_landuse[cols_to_multiply] <- bd_fp_landuse[cols_to_multiply] * bd_fp_landuse$CF_occ_avg_glo
+# Multiply all columns except 'country_code', 'comm_code', etc. (those listed here)
+cols_to_multiply <- colnames(bd_fp_landuse)[!colnames(bd_fp_landuse) %in% c("area_code",
+                                                                            "iso3c",
+                                                                            "comm_code",
+                                                                            "group",
+                                                                            "cf_cropland",
+                                                                            "cf_pasture",
+                                                                            "cf_urban",
+                                                                            "cf_landuse",
+                                                                            colnames(landuse_cf))]
+bd_fp_landuse[cols_to_multiply] <- bd_fp_landuse[cols_to_multiply] * bd_fp_landuse$cf_landuse
 
 # Rename rows to correspond to comm, country, species group
 rownames(bd_fp_landuse) <- paste(bd_fp_landuse$comm_code,
@@ -104,7 +135,6 @@ rownames(bd_fp_landuse) <- paste(bd_fp_landuse$comm_code,
 
 # Drop unnecessary columns
 bd_fp_landuse <- bd_fp_landuse[cols_to_multiply]
-
 
 
 
@@ -248,6 +278,16 @@ bd_fp_total <-  bd_fp_landuse +
 
 rownames(bd_fp_total) <-   rownames(bd_fp_water)
 
+# Save!
+saveRDS(bd_fp_total, file=paste0("./data/bd_fp_total", year, ".rds"))
+write.csv(
+  as.matrix(bd_fp_total),
+  paste0("./data/bd_fp_total", year, ".csv"),
+  row.names = TRUE,
+  col.names = TRUE
+)
+
+
 
 
 
@@ -330,12 +370,17 @@ for (year in years) {
   E_name <- paste0("E_", year)
   E_year <- get(E_name)
   
-  # Get column area codes (extract from column names like "1_c001")
-  col_area <- as.numeric(sub("_.*", "", colnames(E_year)))
-  col_map <- data.frame(area_code = col_area,
-                        col_id = colnames(E_year),
-                        stringsAsFactors = FALSE) %>%
-    left_join(regions[, c('area_code', 'iso3c')], by = "area_code")
+  # Extract area and commodity codes from E column names
+  col_map <- data.frame(col_id = colnames(E_year),
+                        area_code = as.numeric(sub("_.*", "", colnames(E_year))),
+                        comm_code = sub(".*_", "", colnames(E_year)),
+                        stringsAsFactors = FALSE)
+  
+  # Add iso3c and commodity group (e.g. "Livestock")
+  col_map <- col_map %>%
+    left_join(regions[, c("area_code", "iso3c")], by = "area_code") %>%
+    left_join(items[, c("comm_code", "group")], by = "comm_code")
+  
   
   # Create empty matrix for new BD rows
   bd_rows <- matrix(NA, nrow = 7, ncol = ncol(E_year))
@@ -343,8 +388,19 @@ for (year in years) {
   colnames(bd_rows) <- colnames(E_year)
   
   # ---- Land use biodiversity impact
+  # Join both to col_map
+  col_map <- col_map %>%
+    left_join(landuse_cf_cropland, by = "iso3c") %>%
+    left_join(landuse_cf_pasture, by = "iso3c") %>%
+    left_join(landuse_cf_urban, by = "iso3c")
+  
+  # Multiply, making sure that land use cfs correspond to the correct commodities 
+  # (e.g., Livestock gets "pasture", etc.)
   landuse_row <- E_year["landuse", , drop = FALSE]
-  landuse_cf_vec <- landuse_cf$CF_occ_avg_glo[match(col_map$iso3c, landuse_cf$iso3c)]
+  landuse_cf_vec <- case_when(
+                    col_map$group == "Livestock" ~ col_map$cf_pasture,
+                    grepl("construction|housing", col_map$group, ignore.case = TRUE) ~ col_map$cf_urban,
+                    TRUE                         ~ col_map$cf_cropland)
   bd_rows["landuse_bd", ] <- as.numeric(landuse_row) * landuse_cf_vec
   
   # ---- Water use biodiversity impact
@@ -377,7 +433,13 @@ for (year in years) {
   assign(E_name, E_new)
   
   # Save
-  saveRDS(E_name, file=paste0("./data/E_bd_", year, ".rds"))
+  saveRDS(E_new, file=paste0("./data/E/E_full_bd_", year, ".rds"))
+  write.csv(
+    as.matrix(E_new),
+    paste0("./data/E/E_full_bd_", year, ".csv"),
+    row.names = TRUE,
+    col.names = TRUE
+  )
 }
 
 # Update stressor list to include biodiversity impacts
@@ -385,8 +447,8 @@ stressor_list <- rownames(E_2020)
 
 
 #------------------ Convert prod. to cons. with L ------------------------------
-# Multiply updated E (S) matrix with with Leontief inverse to get full impacts through
-#   supply chain
+# Multiply updated E (S) matrix with with Leontief inverse to get full impacts 
+#   throughsupply chain
 
 L_2010 <- readRDS("./data/2010_L_mass.rds")           
 L_2011 <- readRDS("./data/2011_L_mass.rds")       
