@@ -1,0 +1,24 @@
+comm_code,item_code,item,comm_group,blue,unit
+c097,866,Cattle,Live animals,29.200,1000 L per animal
+c098,946,Buffaloes,Live animals,29.200,1000 L per animal
+c099,976,Sheep,Live animals,2.0075,1000 L per animal
+c100,1016,Goats,Live animals,2.0075,1000 L per animal
+c101,1034,Pigs,Live animals,5.137375,1000 L per animal
+c102,2029,Poultry Birds,Live animals,0.130305,1000 L per animal
+c103,1096,Horses,Live animals,14.600,1000 L per animal
+c104,1107,Asses,Live animals,7.300,1000 L per animal
+c105,1110,Mules,Live animals,7.300,1000 L per animal
+c106,1126,Camels,Live animals,7.300,1000 L per animal
+c107,1157,"Camelids, other",Live animals,2.0075,1000 L per animal
+c108,1140,Rabbits and hares,Live animals,0.130305,1000 L per animal
+c109,1150,"Rodents, other",Live animals,0.130305,1000 L per animal
+c114,2731,Bovine Meat,Meat,8.75,1000 L per tonne
+c115,2732,Mutton & Goat Meat,Meat,7.53,1000 L per tonne
+c116,2733,Pigmeat,Meat,6.57,1000 L per tonne
+c117,2734,Poultry Meat,Meat,2.43,1000 L per tonne
+c118,2735,"Meat, Other",Meat,6.32,1000 L per tonne
+c119,2736,"Offals, Edible",Meat,6.32,1000 L per tonne
+c120,2737,"Fats, Animals, Raw",Animal fats,6.32,1000 L per tonne
+c121,2748,Hides and skins,"Hides, skins, wool",6.32,1000 L per tonne
+c122,2749,Meat Meal,Meat,6.32,1000 L per tonne
+based on: http://www.fao.org/3/I9692EN/i9692en.pdf,,,,,

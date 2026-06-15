@@ -1,0 +1,193 @@
+area_code,area,value,water_type,unit
+1,Armenia,240,green,m3 per tonne dm
+2,Afghanistan,331,green,m3 per tonne dm
+3,Albania,317,green,m3 per tonne dm
+4,Algeria,868,green,m3 per tonne dm
+7,Angola,329,green,m3 per tonne dm
+8,Antigua and Barbuda,315,green,m3 per tonne dm
+9,Argentina,287,green,m3 per tonne dm
+10,Australia,762,green,m3 per tonne dm
+11,Austria,202,green,m3 per tonne dm
+12,Bahamas,315,green,m3 per tonne dm
+13,Bahrain,92,green,m3 per tonne dm
+14,Barbados,315,green,m3 per tonne dm
+15,Belgium-Luxembourg,315,green,m3 per tonne dm
+16,Bangladesh,301,green,m3 per tonne dm
+19,Bolivia (Plurinational State of),1591,green,m3 per tonne dm
+20,Botswana,395,green,m3 per tonne dm
+21,Brazil,307,green,m3 per tonne dm
+23,Belize,328,green,m3 per tonne dm
+25,Solomon Islands,315,green,m3 per tonne dm
+26,Brunei Darussalam,301,green,m3 per tonne dm
+27,Bulgaria,570,green,m3 per tonne dm
+28,Myanmar,306,green,m3 per tonne dm
+29,Burundi,281,green,m3 per tonne dm
+32,Cameroon,450,green,m3 per tonne dm
+33,Canada,203,green,m3 per tonne dm
+35,Cabo Verde,315,green,m3 per tonne dm
+37,Central African Republic,329,green,m3 per tonne dm
+38,Sri Lanka,438,green,m3 per tonne dm
+39,Chad,453,green,m3 per tonne dm
+40,Chile,224,green,m3 per tonne dm
+41,"China, mainland",225,green,m3 per tonne dm
+44,Colombia,272,green,m3 per tonne dm
+46,Congo,283,green,m3 per tonne dm
+48,Costa Rica,315,green,m3 per tonne dm
+49,Cuba,338,green,m3 per tonne dm
+50,Cyprus,668,green,m3 per tonne dm
+51,Czechoslovakia,162,green,m3 per tonne dm
+52,Azerbaijan,256,green,m3 per tonne dm
+53,Benin,366,green,m3 per tonne dm
+54,Denmark,68,green,m3 per tonne dm
+55,Dominica,315,green,m3 per tonne dm
+56,Dominican Republic,334,green,m3 per tonne dm
+57,Belarus,151,green,m3 per tonne dm
+58,Ecuador,283,green,m3 per tonne dm
+59,Egypt,225,green,m3 per tonne dm
+60,El Salvador,299,green,m3 per tonne dm
+63,Estonia,131,green,m3 per tonne dm
+66,Fiji,315,green,m3 per tonne dm
+67,Finland,119,green,m3 per tonne dm
+68,France,156,green,m3 per tonne dm
+70,French Polynesia,315,green,m3 per tonne dm
+72,Djibouti,366,green,m3 per tonne dm
+73,Georgia,194,green,m3 per tonne dm
+74,Gabon,271,green,m3 per tonne dm
+75,Gambia,382,green,m3 per tonne dm
+79,Germany,131,green,m3 per tonne dm
+80,Bosnia and Herzegovina,195,green,m3 per tonne dm
+81,Ghana,319,green,m3 per tonne dm
+83,Kiribati,315,green,m3 per tonne dm
+84,Greece,277,green,m3 per tonne dm
+86,Grenada,315,green,m3 per tonne dm
+89,Guatemala,315,green,m3 per tonne dm
+90,Guinea,347,green,m3 per tonne dm
+91,Guyana,273,green,m3 per tonne dm
+93,Haiti,310,green,m3 per tonne dm
+95,Honduras,305,green,m3 per tonne dm
+96,"China, Hong Kong SAR",315,green,m3 per tonne dm
+97,Hungary,280,green,m3 per tonne dm
+98,Croatia,329,green,m3 per tonne dm
+99,Iceland,315,green,m3 per tonne dm
+100,India,407,green,m3 per tonne dm
+101,Indonesia,339,green,m3 per tonne dm
+102,Iran (Islamic Republic of),458,green,m3 per tonne dm
+103,Iraq,188,green,m3 per tonne dm
+104,Ireland,121,green,m3 per tonne dm
+105,Israel,311,green,m3 per tonne dm
+106,Italy,218,green,m3 per tonne dm
+107,Côte d'Ivoire,310,green,m3 per tonne dm
+108,Kazakhstan,278,green,m3 per tonne dm
+109,Jamaica,331,green,m3 per tonne dm
+110,Japan,149,green,m3 per tonne dm
+112,Jordan,2316,green,m3 per tonne dm
+113,Kyrgyzstan,229,green,m3 per tonne dm
+114,Kenya,399,green,m3 per tonne dm
+115,Cambodia,334,green,m3 per tonne dm
+116,Democratic People's Republic of Korea,195,green,m3 per tonne dm
+117,Republic of Korea,240,green,m3 per tonne dm
+118,Kuwait,198,green,m3 per tonne dm
+119,Latvia,134,green,m3 per tonne dm
+120,Lao People's Democratic Republic,294,green,m3 per tonne dm
+121,Lebanon,237,green,m3 per tonne dm
+122,Lesotho,340,green,m3 per tonne dm
+123,Liberia,315,green,m3 per tonne dm
+124,Libya,246,green,m3 per tonne dm
+126,Lithuania,140,green,m3 per tonne dm
+128,"China, Macao SAR",315,green,m3 per tonne dm
+129,Madagascar,323,green,m3 per tonne dm
+130,Malawi,368,green,m3 per tonne dm
+131,Malaysia,337,green,m3 per tonne dm
+132,Maldives,315,green,m3 per tonne dm
+133,Mali,421,green,m3 per tonne dm
+134,Malta,315,green,m3 per tonne dm
+136,Mauritania,419,green,m3 per tonne dm
+137,Mauritius,315,green,m3 per tonne dm
+138,Mexico,174,green,m3 per tonne dm
+141,Mongolia,214,green,m3 per tonne dm
+143,Morocco,347,green,m3 per tonne dm
+144,Mozambique,353,green,m3 per tonne dm
+146,Republic of Moldova,212,green,m3 per tonne dm
+147,Namibia,287,green,m3 per tonne dm
+149,Nepal,330,green,m3 per tonne dm
+150,Netherlands,118,green,m3 per tonne dm
+151,Netherlands Antilles,315,green,m3 per tonne dm
+153,New Caledonia,315,green,m3 per tonne dm
+154,The former Yugoslav Republic of Macedonia,315,green,m3 per tonne dm
+155,Vanuatu,315,green,m3 per tonne dm
+156,New Zealand,251,green,m3 per tonne dm
+157,Nicaragua,305,green,m3 per tonne dm
+158,Niger,431,green,m3 per tonne dm
+159,Nigeria,420,green,m3 per tonne dm
+162,Norway,118,green,m3 per tonne dm
+165,Pakistan,349,green,m3 per tonne dm
+166,Panama,301,green,m3 per tonne dm
+167,Czech Republic,162,green,m3 per tonne dm
+168,Papua New Guinea,289,green,m3 per tonne dm
+169,Paraguay,428,green,m3 per tonne dm
+170,Peru,374,green,m3 per tonne dm
+171,Philippines,331,green,m3 per tonne dm
+173,Poland,152,green,m3 per tonne dm
+174,Portugal,309,green,m3 per tonne dm
+175,Guinea-Bissau,338,green,m3 per tonne dm
+176,Timor-Leste,315,green,m3 per tonne dm
+177,Puerto Rico,315,green,m3 per tonne dm
+178,Eritrea,554,green,m3 per tonne dm
+179,Qatar,247,green,m3 per tonne dm
+181,Zimbabwe,379,green,m3 per tonne dm
+183,Romania,258,green,m3 per tonne dm
+184,Rwanda,272,green,m3 per tonne dm
+185,Russian Federation,196,green,m3 per tonne dm
+186,Serbia and Montenegro,342,green,m3 per tonne dm
+188,Saint Kitts and Nevis,315,green,m3 per tonne dm
+189,Saint Lucia,315,green,m3 per tonne dm
+191,Saint Vincent and the Grenadines,315,green,m3 per tonne dm
+193,Sao Tome and Principe,315,green,m3 per tonne dm
+194,Saudi Arabia,408,green,m3 per tonne dm
+195,Senegal,397,green,m3 per tonne dm
+197,Sierra Leone,350,green,m3 per tonne dm
+198,Slovenia,159,green,m3 per tonne dm
+199,Slovakia,189,green,m3 per tonne dm
+200,Singapore,328,green,m3 per tonne dm
+201,Somalia,431,green,m3 per tonne dm
+202,South Africa,385,green,m3 per tonne dm
+203,Spain,173,green,m3 per tonne dm
+207,Suriname,295,green,m3 per tonne dm
+208,Tajikistan,291,green,m3 per tonne dm
+209,Swaziland,315,green,m3 per tonne dm
+210,Sweden,135,green,m3 per tonne dm
+211,Switzerland,138,green,m3 per tonne dm
+212,Syrian Arab Republic,434,green,m3 per tonne dm
+213,Turkmenistan,309,green,m3 per tonne dm
+214,"China, Taiwan Province of",315,green,m3 per tonne dm
+215,United Republic of Tanzania,355,green,m3 per tonne dm
+216,Thailand,334,green,m3 per tonne dm
+217,Togo,324,green,m3 per tonne dm
+220,Trinidad and Tobago,333,green,m3 per tonne dm
+221,Oman,425,green,m3 per tonne dm
+222,Tunisia,316,green,m3 per tonne dm
+223,Turkey,261,green,m3 per tonne dm
+225,United Arab Emirates,169,green,m3 per tonne dm
+226,Uganda,286,green,m3 per tonne dm
+228,USSR,196,green,m3 per tonne dm
+229,United Kingdom,117,green,m3 per tonne dm
+230,Ukraine,196,green,m3 per tonne dm
+231,United States of America,372,green,m3 per tonne dm
+233,Burkina Faso,427,green,m3 per tonne dm
+234,Uruguay,231,green,m3 per tonne dm
+235,Uzbekistan,317,green,m3 per tonne dm
+236,Venezuela (Bolivarian Republic of),300,green,m3 per tonne dm
+237,Viet Nam,293,green,m3 per tonne dm
+238,Ethiopia,395,green,m3 per tonne dm
+244,Samoa,315,green,m3 per tonne dm
+248,Yugoslav SFR,315,green,m3 per tonne dm
+249,Yemen,355,green,m3 per tonne dm
+250,Democratic Republic of the Congo,312,green,m3 per tonne dm
+251,Zambia,354,green,m3 per tonne dm
+255,Belgium,102,green,m3 per tonne dm
+256,Luxembourg,157,green,m3 per tonne dm
+272,Serbia,342,green,m3 per tonne dm
+273,Montenegro,342,green,m3 per tonne dm
+276,Sudan,417,green,m3 per tonne dm
+277,South Sudan,417,green,m3 per tonne dm
+999,RoW,315,green,m3 per tonne dm

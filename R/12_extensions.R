@@ -161,11 +161,13 @@ E <- lapply(years, function(x, y) {
   water <- water_lvst[water_lvst$year == x]
   data[, blue := water$blue[match(paste(data$area_code, data$item_code),
     paste(water$area_code, water$item_code))]]
-  data[, green := as.numeric(water_pasture$m3_per_ha[match(data$area_code, water_pasture$area_code)]) * landuse]
+  #data[, green := as.numeric(water_pasture$m3_per_ha[match(data$area_code, water_pasture$area_code)]) * landuse]
+  data[, green := as.numeric(water_pasture$m3_per_ha[match(data$area_code, water_pasture$area_code)]) * landuse / biomass] #Divide by biomass for intensities
   data[item_code != 2001, green := 0]
   data[, `:=`(fodder_blue = water_fodder$blue[match(data$area_code, water_fodder$area_code)],
                   fodder_green = water_fodder$green[match(data$area_code, water_fodder$area_code)])]
-  data[item_code == 2000, `:=`(blue = fodder_blue * biomass, green = fodder_green * biomass)]
+  #data[item_code == 2000, `:=`(blue = fodder_blue * biomass, green = fodder_green * biomass)] #THIS IS FODDER PROBLEM
+  data[item_code == 2000, `:=`(blue = fodder_blue, green = fodder_green)] # Do not multiply by biomass, keep intensities for stressor matrix
   data[, `:=`(fodder_blue = NULL, fodder_green = NULL)]
   water_blue <- water_crop[water_type == "blue" & year == x]
   water_green <- water_crop[water_type == "green" & year == x]
